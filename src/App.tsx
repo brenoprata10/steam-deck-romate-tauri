@@ -21,6 +21,7 @@ export default function App() {
 	const [isSteamProcessClosed, setIsSteamProcessClosed] = useState(true)
 
 	const checkSteamProcess = async () => {
+		console.log(' iam hero')
 		if (state.steamUserId) {
 			setIsSteamProcessClosed(true)
 			const isReady = await isSteamCategoriesReady({steamUserId: state.steamUserId})

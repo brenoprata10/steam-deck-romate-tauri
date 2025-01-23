@@ -25,7 +25,8 @@ const AutoUpdater = () => {
 				goToNextScreen()
 			}
 		})*/
-		if (isDeveloperMode) {
+	       alert('here')
+		if (isDeveloperMode || true) {
 			goToNextScreen()
 		}
 	})

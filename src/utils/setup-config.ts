@@ -1,8 +1,8 @@
 import EPlatform from '@/enums/EPlatform'
-import EMUDECK_IMG from '../../../assets/setup-assets/emudeck.png'
-import PARSER_IMG from '../../../assets/setup-assets/code.jpg'
-import CUSTOM_FOLDER_IMG from '../../../assets/setup-assets/custom-folder.jpg'
-import STEAM_IMG from '../../../assets/setup-assets/steam.jpg'
+import EMUDECK_IMG from '../assets/setup-assets/emudeck.png'
+import PARSER_IMG from '../assets/setup-assets/code.jpg'
+import CUSTOM_FOLDER_IMG from '../assets/setup-assets/custom-folder.jpg'
+import STEAM_IMG from '../assets/setup-assets/steam.jpg'
 import ESetup from '@/enums/ESetup'
 import TSetupConfig from '@/types/TSetupConfig'
 

@@ -1,5 +1,5 @@
-import {readVdf, VdfMap, writeVdf} from 'steam-binary-vdf'
-import {homedir} from 'os'
+//TODO migrate
+//import {homedir} from 'os'
 import path from 'path'
 import {getBufferFileData, getFolderContents, getTextFileData} from '@/utils/files'
 import fsPromise from 'fs/promises'
@@ -29,7 +29,9 @@ export const getSteamPathConfig = async (
 
 	const userDataDirectory = isWindows
 		? path.join(ESteamUserDataPath.WINDOWS, 'userdata')
-		: path.join(homedir(), ESteamUserDataPath.LINUX, 'userdata')
+		// TODO migrate
+		//: path.join(homedir(), ESteamUserDataPath.LINUX, 'userdata')
+		: path.join(ESteamUserDataPath.LINUX, 'userdata')
 
 	if (!steamId) {
 		return {hasSteamId: false, userDataDirectory}
@@ -79,12 +81,15 @@ export const getSteamShortcuts = async ({
 	steamUserId
 }: {
 	steamUserId: string
-}): Promise<{shortcuts: {[id: string]: VdfMap}}> => {
+}): Promise<{shortcuts: {[id: string]: {[name: string]: string | number}}}> => {
 	try {
 		const steamPathConfig = await getSteamPathConfig(steamUserId)
 		if (steamPathConfig.hasSteamId) {
 			const buffer = await getBufferFileData(steamPathConfig.shortcutsFile)
-			return readVdf(buffer) as {shortcuts: {[id: string]: VdfMap}}
+			//TODO migrate
+			//return readVdf(buffer) as {shortcuts: {[id: string]: {[name: string]: string | number}}}
+			return {} as {shortcuts: {[id: string]: {[name: string]: string | number}}}
+
 		}
 		throw Error('User ID is not available.')
 	} catch (error) {
@@ -93,8 +98,10 @@ export const getSteamShortcuts = async ({
 	}
 }
 
-export const saveSteamShortcuts = async ({shortcuts, steamUserId}: {shortcuts: VdfMap; steamUserId: string}) => {
-	const outBuffer = writeVdf(shortcuts)
+export const saveSteamShortcuts = async ({shortcuts, steamUserId}: {shortcuts:{[name: string]: string | number}; steamUserId: string}) => {
+			//TODO migrate
+	//const outBuffer = writeVdf(shortcuts)
+	const outBuffer = {} as unknown as any
 
 	const steamPathConfig = await getSteamPathConfig(steamUserId)
 	if (steamPathConfig.hasSteamId) {

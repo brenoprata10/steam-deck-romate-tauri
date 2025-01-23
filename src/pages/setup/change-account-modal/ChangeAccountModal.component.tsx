@@ -2,7 +2,7 @@ import TUserData from '@/types/TUserData'
 import CardOption from '@/uikit/card-option/CardOption.component'
 import Modal from '@/uikit/modal/Modal.component'
 import styles from './ChangeAccountModal.module.scss'
-import DECK_LOGO from '../../../../../assets/deck-logo.png'
+import DECK_LOGO from '../../../assets/deck-logo.png'
 import {useCallback} from 'react'
 
 const ChangeAccountModal = ({

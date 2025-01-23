@@ -2,7 +2,7 @@ import Modal from '@/uikit/modal/Modal.component'
 import styles from './AboutModal.module.scss'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBug} from '@fortawesome/free-solid-svg-icons'
-import GITHUB_IMAGE from '../../../../../assets/setup-assets/github.png'
+import GITHUB_IMAGE from '../../../assets/setup-assets/github.png'
 import {IconProp} from '@fortawesome/fontawesome-svg-core'
 
 const SUPPORT_CONFIG: Array<{label: string; icon?: IconProp; image?: string; link: string}> = [

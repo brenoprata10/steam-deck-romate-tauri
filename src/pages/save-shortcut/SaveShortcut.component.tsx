@@ -22,7 +22,6 @@ import {getAssetsWithPreSelection, getCachedGames, getGameSearchTerm} from '@/ut
 import {getAssetFileName} from '@/utils/steam-assets'
 import {getCategoriesByUser, saveCategoryByUser} from '@/utils/steam-categories'
 import {getSteamPathConfig, getSteamShortcuts, saveSteamShortcuts} from '@/utils/steam-shortcuts'
-import {VdfMap} from 'steam-binary-vdf'
 import styles from './SaveShortcut.module.scss'
 import EAssetType from '@/enums/EAssetType'
 
@@ -118,7 +117,7 @@ const SaveShortcut = () => {
 			throw Error('Steam user Id not provided.')
 		}
 
-		const shortcutsObject = (await getSteamShortcuts({steamUserId})) as {shortcuts: {[id: string]: VdfMap}}
+		const shortcutsObject = (await getSteamShortcuts({steamUserId})) as {shortcuts: {[id: string]: {[name: string]: string | number}}}
 
 		for (const game of games) {
 			const selectedIcon = getSelectedAsset({assets: game.assets?.ICON ?? []})
