@@ -1,8 +1,8 @@
-import TGame from 'renderer/types/TGame'
-import TParserConfig from 'renderer/types/TParserConfig'
-import {getFileExtension, getFolderContents, getFileNameWithoutExtension} from 'renderer/utils/files'
-import {generateShortAppId} from 'renderer/utils/generate-app-id'
-import {getGameSearchTerm} from 'renderer/utils/game'
+import TGame from '@/types/TGame'
+import TParserConfig from '@/types/TParserConfig'
+import {getFileExtension, getFolderContents, getFileNameWithoutExtension} from '@/utils/files'
+import {generateShortAppId} from '@/utils/generate-app-id'
+import {getGameSearchTerm} from '@/utils/game'
 
 export const getGamesFromParser = (parser: TParserConfig): TGame[] => {
 	const files = getFolderContents(parser.romDirectory, {scanSubDirectories: true})

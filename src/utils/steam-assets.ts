@@ -1,7 +1,7 @@
-import EAssetType from 'renderer/enums/EAssetType'
-import TGame from 'renderer/types/TGame'
-import {getSteamLocalConfigData} from 'renderer/utils/steam-shortcuts'
-import STEAM_APPS from '../../../assets/steam-apps.json'
+import EAssetType from '@/enums/EAssetType'
+import TGame from '@/types/TGame'
+import {getSteamLocalConfigData} from '@/utils/steam-shortcuts'
+//import STEAM_APPS from '../../../assets/steam-apps.json'
 
 export const getAssetFileName = (shortAppId: number | string, extension: string) => {
 	return {
@@ -15,7 +15,8 @@ export const getAssetFileName = (shortAppId: number | string, extension: string)
 
 export const getSteamGamesByUserId = async (userId: string): Promise<TGame[]> => {
 	const localConfigData = await getSteamLocalConfigData(userId)
-	const steamApps = STEAM_APPS as {applist: {apps: Array<{appid: number; name: string}>}}
+	//const steamApps = STEAM_APPS as {applist: {apps: Array<{appid: number; name: string}>}}
+	return []
 
 	return (
 		Object.keys(localConfigData.UserLocalConfigStore.Software.Valve.Steam.apps)

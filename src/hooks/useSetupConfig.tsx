@@ -1,5 +1,5 @@
-import ESetup from 'renderer/enums/ESetup'
-import {getSetupConfig} from 'renderer/utils/setup-config'
+import ESetup from '@/enums/ESetup'
+import {getSetupConfig} from '@/utils/setup-config'
 
 const useSetupConfig = ({setup}: {setup: ESetup}) => {
 	return getSetupConfig(setup)

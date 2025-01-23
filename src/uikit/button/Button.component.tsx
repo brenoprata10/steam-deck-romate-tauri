@@ -1,6 +1,6 @@
 import {IconDefinition} from '@fortawesome/fontawesome-svg-core'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import Loader, {ESize} from 'renderer/uikit/loader/Loader.component'
+import Loader, {ESize} from '@/uikit/loader/Loader.component'
 import styles from './Button.module.scss'
 
 export enum EButtonVariant {

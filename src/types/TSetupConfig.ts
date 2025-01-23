@@ -1,4 +1,4 @@
-import EPlatform from 'main/enums/EPlatform'
+import EPlatform from '@/enums/EPlatform'
 
 type TSetupConfig = {
 	label: string

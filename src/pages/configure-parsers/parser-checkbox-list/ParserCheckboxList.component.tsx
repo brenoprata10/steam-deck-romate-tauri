@@ -1,7 +1,7 @@
 import {useCallback, useEffect, useState} from 'react'
-import TParserConfig from 'renderer/types/TParserConfig'
-import Button from 'renderer/uikit/button/Button.component'
-import Checkbox from 'renderer/uikit/checkbox/Checkbox.component'
+import TParserConfig from '@/types/TParserConfig'
+import Button from '@/uikit/button/Button.component'
+import Checkbox from '@/uikit/checkbox/Checkbox.component'
 import styles from './ParserCheckboxList.module.scss'
 
 const ParserCheckboxList = ({

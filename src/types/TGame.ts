@@ -1,4 +1,4 @@
-import TGameAssetCollection from 'renderer/types/TGameAssetCollection'
+import TGameAssetCollection from '@/types/TGameAssetCollection'
 
 type TGame = {
 	id: string

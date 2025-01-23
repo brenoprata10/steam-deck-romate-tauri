@@ -1,5 +1,5 @@
-import TParserConfig from 'renderer/types/TParserConfig'
-import TSteamRomManagerParserConfig from 'renderer/types/TSteamRomManagerParserConfig'
+import TParserConfig from '@/types/TParserConfig'
+import TSteamRomManagerParserConfig from '@/types/TSteamRomManagerParserConfig'
 
 const DEFAULT_EMUDECK_EMULATION_FOLDER_PATH = '/run/media/mmcblk0p1/Emulation'
 

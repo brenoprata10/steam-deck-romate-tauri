@@ -1,6 +1,5 @@
-import * as Electron from 'electron'
-import EChannel from 'main/enums/EChannel'
-import {TFolderPath} from 'renderer/types/TFilePath'
+//import EChannel from '@/enums/EChannel'
+import {TFolderPath} from '@/types/TFilePath'
 
 const useSelectMultipleFiles = ({
 	title,
@@ -9,7 +8,9 @@ const useSelectMultipleFiles = ({
 	title: string
 	extensions: string[]
 }): {trigger: () => Promise<TFolderPath>} => {
-	return {trigger: () => Electron.ipcRenderer.invoke(EChannel.SELECT_MULTIPLE_FILES, title, ...extensions)}
+	//TODO migrate to Command
+	//return {trigger: () => Electron.ipcRenderer.invoke(EChannel.SELECT_MULTIPLE_FILES, title, ...extensions)}
+	return {trigger: () => Promise.resolve({canceled: false, filePaths: []})}
 }
 
 export default useSelectMultipleFiles

@@ -1,10 +1,10 @@
-import EAssetType from 'renderer/enums/EAssetType'
-import {TSteamGridAsset} from 'renderer/types/TApiSteamGridAssets'
-import TGameAssetCollection from 'renderer/types/TGameAssetCollection'
-import ButtonGroup from 'renderer/uikit/button-group/ButtonGroup.component'
-import Image from 'renderer/uikit/image/Image.component'
-import Modal, {TModalProps} from 'renderer/uikit/modal/Modal.component'
-import {getSelectedAsset} from 'renderer/utils/asset'
+import EAssetType from '@/enums/EAssetType'
+import {TSteamGridAsset} from '@/types/TApiSteamGridAssets'
+import TGameAssetCollection from '@/types/TGameAssetCollection'
+import ButtonGroup from '@/uikit/button-group/ButtonGroup.component'
+import Image from '@/uikit/image/Image.component'
+import Modal, {TModalProps} from '@/uikit/modal/Modal.component'
+import {getSelectedAsset} from '@/utils/asset'
 import styles from './AssetModal.module.scss'
 
 export const GAME_ASSET_IMAGE_CONFIG: {[assetType in EAssetType]: {height: string; width: string}} = {

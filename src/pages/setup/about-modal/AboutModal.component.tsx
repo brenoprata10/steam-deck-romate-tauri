@@ -1,4 +1,4 @@
-import Modal from 'renderer/uikit/modal/Modal.component'
+import Modal from '@/uikit/modal/Modal.component'
 import styles from './AboutModal.module.scss'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faBug} from '@fortawesome/free-solid-svg-icons'

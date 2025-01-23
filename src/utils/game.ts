@@ -1,9 +1,9 @@
-import EAssetType from 'renderer/enums/EAssetType'
-import ELocalStorageKey from 'renderer/enums/ELocalStorageKey'
-import TGame from 'renderer/types/TGame'
-import TGameAssetCollection from 'renderer/types/TGameAssetCollection'
-import {getTextFileData} from 'renderer/utils/files'
-import {generateShortAppId} from 'renderer/utils/generate-app-id'
+import EAssetType from '@/enums/EAssetType'
+import ELocalStorageKey from '@/enums/ELocalStorageKey'
+import TGame from '@/types/TGame'
+import TGameAssetCollection from '@/types/TGameAssetCollection'
+import {getTextFileData} from '@/utils/files'
+import {generateShortAppId} from '@/utils/generate-app-id'
 import {getSelectedAsset} from './asset'
 
 const DESKTOP_FILE_PROPERTY_CONFIG: {[propertyName: string]: 'name' | 'exec'} = {

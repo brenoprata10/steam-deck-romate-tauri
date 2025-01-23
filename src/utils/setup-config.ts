@@ -1,10 +1,10 @@
-import EPlatform from 'main/enums/EPlatform'
+import EPlatform from '@/enums/EPlatform'
 import EMUDECK_IMG from '../../../assets/setup-assets/emudeck.png'
 import PARSER_IMG from '../../../assets/setup-assets/code.jpg'
 import CUSTOM_FOLDER_IMG from '../../../assets/setup-assets/custom-folder.jpg'
 import STEAM_IMG from '../../../assets/setup-assets/steam.jpg'
-import ESetup from 'renderer/enums/ESetup'
-import TSetupConfig from 'renderer/types/TSetupConfig'
+import ESetup from '@/enums/ESetup'
+import TSetupConfig from '@/types/TSetupConfig'
 
 const SETUP_CONFIG: {[setup in ESetup]: TSetupConfig} = {
 	[ESetup.CREATE_PARSERS]: {

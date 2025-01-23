@@ -1,12 +1,12 @@
-import EAutoUpdaterMessage from 'enums/EAutoUpdaterMessage'
-import EChannel from 'main/enums/EChannel'
-import TAutoUpdaterMessage from 'main/types/TAutoUpdaterMessage'
+import EAutoUpdaterMessage from '@/enums/EAutoUpdaterMessage'
+//import EChannel from '@/enums/EChannel'
+import TAutoUpdaterMessage from '@/types/TAutoUpdaterMessage'
 import {useCallback, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {useMount} from 'react-use'
-import ERoute from 'renderer/enums/ERoute'
-import {getRoutePath} from 'renderer/route'
-import {isDeveloperMode} from 'renderer/utils/node-env'
+import ERoute from '@/enums/ERoute'
+import {getRoutePath} from '@/route'
+import {isDeveloperMode} from '@/utils/node-env'
 import styles from './AutoUpdater.module.scss'
 
 const AutoUpdater = () => {
@@ -18,12 +18,13 @@ const AutoUpdater = () => {
 	}, [navigate])
 
 	useMount(() => {
-		Electron.ipcRenderer.on(EChannel.AUTO_UPDATER, (_, message: TAutoUpdaterMessage) => {
+		//TODO migrate to Command
+		/*Electron.ipcRenderer.on(EChannel.AUTO_UPDATER, (_, message: TAutoUpdaterMessage) => {
 			setUpdateStatus(message)
 			if ([EAutoUpdaterMessage.ERROR, EAutoUpdaterMessage.UPDATE_NOT_AVAILABLE].includes(message.status)) {
 				goToNextScreen()
 			}
-		})
+		})*/
 		if (isDeveloperMode) {
 			goToNextScreen()
 		}

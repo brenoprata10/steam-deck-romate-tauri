@@ -1,25 +1,25 @@
 import {useCallback, useContext, useState} from 'react'
 import {useMount} from 'react-use'
-import {CommonDispatchContext} from 'renderer/context'
-import useCustomParsers from 'renderer/hooks/useCustomParsers'
-import {EAction} from 'renderer/reducer'
-import TParserConfig from 'renderer/types/TParserConfig'
-import Button, {EButtonVariant} from 'renderer/uikit/button/Button.component'
-import Modal from 'renderer/uikit/modal/Modal.component'
-import {generateId} from 'renderer/utils/generate-id'
+import {CommonDispatchContext} from '@/context'
+import useCustomParsers from '@/hooks/useCustomParsers'
+import {EAction} from '@/reducer'
+import TParserConfig from '@/types/TParserConfig'
+import Button, {EButtonVariant} from '@/uikit/button/Button.component'
+import Modal from '@/uikit/modal/Modal.component'
+import {generateId} from '@/utils/generate-id'
 import styles from './ConfigureParsers.module.scss'
-import ParserForm from 'renderer/pages/configure-parsers/parser-form/ParserForm.component'
+import ParserForm from '@/pages/configure-parsers/parser-form/ParserForm.component'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faWarning} from '@fortawesome/free-solid-svg-icons'
 import {useNavigate} from 'react-router-dom'
-import {getRoutePath} from 'renderer/route'
-import ERoute from 'renderer/enums/ERoute'
-import {getGamesFromParsers} from 'renderer/utils/parser'
-import ELocalStorageKey from 'renderer/enums/ELocalStorageKey'
-import ParserImport from 'renderer/pages/configure-parsers/parser-import/ParserImport.component'
-import EStorageKey from 'renderer/enums/EStorageKey'
-import storage from 'electron-json-storage'
-import ParserExport from 'renderer/pages/configure-parsers/parser-export/ParserExport.component'
+import {getRoutePath} from '@/route'
+import ERoute from '@/enums/ERoute'
+import {getGamesFromParsers} from '@/utils/parser'
+import ELocalStorageKey from '@/enums/ELocalStorageKey'
+import ParserImport from '@/pages/configure-parsers/parser-import/ParserImport.component'
+//import EStorageKey from '@/enums/EStorageKey'
+//import storage from 'electron-json-storage'
+import ParserExport from '@/pages/configure-parsers/parser-export/ParserExport.component'
 
 enum EContentType {
 	PARSER_CONFIG = 'PARSER_CONFIG',
@@ -93,6 +93,8 @@ const ConfigureParsers = () => {
 	)
 
 	const exportParsers = useCallback((exportedParsers: TParserConfig[]) => {
+		//TODO migrate to Command
+		/*
 		storage.set(EStorageKey.PARSERS, {parsers: exportedParsers}, {dataPath: './'}, function (error) {
 			if (error) {
 				alert('Could not save file. Please report this in our github page.')
@@ -100,7 +102,7 @@ const ConfigureParsers = () => {
 				return
 			}
 			alert(`File ${EStorageKey.PARSERS}.json saved.\n\nThe file is located under the same path as this executable.`)
-		})
+		})*/
 	}, [])
 
 	const importParsers = useCallback(

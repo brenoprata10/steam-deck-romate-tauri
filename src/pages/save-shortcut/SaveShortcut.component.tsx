@@ -1,31 +1,30 @@
-import * as Electron from 'electron'
-import EChannel from 'main/enums/EChannel'
+import EChannel from '@/enums/EChannel'
 import PromiseThrottle from 'promise-throttle'
 import {useCallback, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {useMount} from 'react-use'
-import {getGameAssetsByName} from 'renderer/api/steam-grid.api'
-import EAssetType from 'renderer/enums/EAssetType'
-import ELocalStorageKey from 'renderer/enums/ELocalStorageKey'
-import ERoute from 'renderer/enums/ERoute'
-import ESetup from 'renderer/enums/ESetup'
-import useGames from 'renderer/hooks/useGames'
-import useSetupFlow from 'renderer/hooks/useSetupFlow'
-import useSteamGridApiKey from 'renderer/hooks/useSteamGridApiKey'
-import useSteamUserId from 'renderer/hooks/useSteamUserId'
-import {getRoutePath} from 'renderer/route'
-import TGame from 'renderer/types/TGame'
-import Button, {EButtonVariant} from 'renderer/uikit/button/Button.component'
-import PageFooter from 'renderer/uikit/page/footer/PageFooter.component'
-import Page from 'renderer/uikit/page/Page.component'
-import {getSelectedAsset} from 'renderer/utils/asset'
-import {getFileExtension} from 'renderer/utils/files'
-import {getAssetsWithPreSelection, getCachedGames, getGameSearchTerm} from 'renderer/utils/game'
-import {getAssetFileName} from 'renderer/utils/steam-assets'
-import {getCategoriesByUser, saveCategoryByUser} from 'renderer/utils/steam-categories'
-import {getSteamPathConfig, getSteamShortcuts, saveSteamShortcuts} from 'renderer/utils/steam-shortcuts'
+import {getGameAssetsByName} from '@/api/steam-grid.api'
+import ELocalStorageKey from '@/enums/ELocalStorageKey'
+import ERoute from '@/enums/ERoute'
+import ESetup from '@/enums/ESetup'
+import useGames from '@/hooks/useGames'
+import useSetupFlow from '@/hooks/useSetupFlow'
+import useSteamGridApiKey from '@/hooks/useSteamGridApiKey'
+import useSteamUserId from '@/hooks/useSteamUserId'
+import {getRoutePath} from '@/route'
+import TGame from '@/types/TGame'
+import Button, {EButtonVariant} from '@/uikit/button/Button.component'
+import PageFooter from '@/uikit/page/footer/PageFooter.component'
+import Page from '@/uikit/page/Page.component'
+import {getSelectedAsset} from '@/utils/asset'
+import {getFileExtension} from '@/utils/files'
+import {getAssetsWithPreSelection, getCachedGames, getGameSearchTerm} from '@/utils/game'
+import {getAssetFileName} from '@/utils/steam-assets'
+import {getCategoriesByUser, saveCategoryByUser} from '@/utils/steam-categories'
+import {getSteamPathConfig, getSteamShortcuts, saveSteamShortcuts} from '@/utils/steam-shortcuts'
 import {VdfMap} from 'steam-binary-vdf'
 import styles from './SaveShortcut.module.scss'
+import EAssetType from '@/enums/EAssetType'
 
 enum EStep {
 	DOWNLOAD_ASSETS = 'Downloading assets',
@@ -82,11 +81,12 @@ const SaveShortcut = () => {
 					const assetExtension = getFileExtension(selectedAsset.mime)
 					const fileName = getAssetFileName(game.id, assetExtension)[assetType]
 
-					await Electron.ipcRenderer.invoke(EChannel.DOWNLOAD_ASSET, {
+					// TODO migrate to Tauri Command
+					/*await Electron.ipcRenderer.invoke(EChannel.DOWNLOAD_ASSET, {
 						url: selectedAsset.url,
 						fileName,
 						directory: steamPath.assetsDirectory
-					})
+					})*/
 					addToLog(
 						`Downloaded: ${game.name} / ${assetType.toLocaleLowerCase()} - ${fileName} - ${selectedAsset.url}`,
 						SECONDARY_LOG_COLOR

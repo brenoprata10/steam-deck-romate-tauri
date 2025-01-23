@@ -1,4 +1,4 @@
-import ERoute from 'renderer/enums/ERoute'
+import ERoute from '@/enums/ERoute'
 
 const ROUTE_CONFIG: {[route in ERoute]: {path: string}} = {
 	[ERoute.AUTO_UPDATER]: {

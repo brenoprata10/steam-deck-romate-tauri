@@ -1,4 +1,4 @@
-import TParserConfig from 'renderer/types/TParserConfig'
+import TParserConfig from '@/types/TParserConfig'
 
 export const EMUDECK_PARSERS: TParserConfig[] = [
 	{

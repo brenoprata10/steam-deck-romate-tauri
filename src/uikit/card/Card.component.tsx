@@ -1,4 +1,4 @@
-import ButtonSelect, {TButtonSelectOption} from 'renderer/uikit/button-select/ButtonSelect.component'
+import ButtonSelect, {TButtonSelectOption} from '@/uikit/button-select/ButtonSelect.component'
 import styles from './Card.module.scss'
 import {faEllipsis} from '@fortawesome/free-solid-svg-icons'
 

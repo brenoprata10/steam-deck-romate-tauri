@@ -1,6 +1,6 @@
-import ParserCheckboxList from 'renderer/pages/configure-parsers/parser-checkbox-list/ParserCheckboxList.component'
+import ParserCheckboxList from '@/pages/configure-parsers/parser-checkbox-list/ParserCheckboxList.component'
 
-import TParserConfig from 'renderer/types/TParserConfig'
+import TParserConfig from '@/types/TParserConfig'
 
 const ParserExport = ({
 	parsers,

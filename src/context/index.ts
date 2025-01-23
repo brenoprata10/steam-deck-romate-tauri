@@ -1,5 +1,5 @@
 import {createContext} from 'react'
-import {TAction, TCommonState} from 'renderer/reducer'
+import {TAction, TCommonState} from '@/reducer'
 
 type TCommonContext = TCommonState
 

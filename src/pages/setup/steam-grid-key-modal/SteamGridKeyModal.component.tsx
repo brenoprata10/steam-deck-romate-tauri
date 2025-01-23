@@ -1,9 +1,9 @@
 import {useCallback, useState} from 'react'
-import {getGameIdByName} from 'renderer/api/steam-grid.api'
-import Button from 'renderer/uikit/button/Button.component'
-import Modal from 'renderer/uikit/modal/Modal.component'
+import {getGameIdByName} from '@/api/steam-grid.api'
+import Button from '@/uikit/button/Button.component'
+import Modal from '@/uikit/modal/Modal.component'
 import styles from './SteamGridKeyModal.module.scss'
-import Input from 'renderer/uikit/input/Input.component'
+import Input from '@/uikit/input/Input.component'
 
 const SteamGridKeyModal = ({
 	isOpened,

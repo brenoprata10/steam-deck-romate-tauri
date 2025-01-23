@@ -1,5 +1,5 @@
 import {useContext} from 'react'
-import {CommonContext} from 'renderer/context'
+import {CommonContext} from '@/context'
 
 const useSteamUserId = () => {
 	const {steamUserId} = useContext(CommonContext)

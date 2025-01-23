@@ -1,6 +1,6 @@
 import {useContext} from 'react'
-import {CommonContext} from 'renderer/context'
-import TGame from 'renderer/types/TGame'
+import {CommonContext} from '@/context'
+import TGame from '@/types/TGame'
 
 const useGames = (): TGame[] => {
 	return useContext(CommonContext).games

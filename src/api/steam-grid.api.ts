@@ -1,11 +1,10 @@
-import * as Electron from 'electron'
-import EChannel from 'main/enums/EChannel'
-import TApiSteamGridSearch from 'renderer/types/TApiSteamGridSearch'
-import TApiSteamGridAssets from 'renderer/types/TApiSteamGridAssets'
-import ESteamGridAssetType from 'renderer/enums/ESteamGridAssetType'
-import EAssetType from 'renderer/enums/EAssetType'
-import TGameAssetCollection from 'renderer/types/TGameAssetCollection'
-import TBaseApiSteamGrid from 'renderer/types/TBaseApiSteamGrid'
+import EChannel from '@/enums/EChannel'
+import TApiSteamGridSearch from '@/types/TApiSteamGridSearch'
+import TApiSteamGridAssets from '@/types/TApiSteamGridAssets'
+import ESteamGridAssetType from '@/enums/ESteamGridAssetType'
+import EAssetType from '@/enums/EAssetType'
+import TGameAssetCollection from '@/types/TGameAssetCollection'
+import TBaseApiSteamGrid from '@/types/TBaseApiSteamGrid'
 
 export const getGameIdByName = async ({
 	gameName: gameName,
@@ -83,14 +82,16 @@ export const getGameAssetById = ({
 
 export const steamGridRequest = async <T>({url, apiKey}: {url: string; apiKey: string}): Promise<T> => {
 	try {
-		const response = (await Electron.ipcRenderer.invoke(EChannel.STEAM_GRID_REQUEST, {
+		//TODO migrate to Tauri command
+		/*const response = (await Electron.ipcRenderer.invoke(EChannel.STEAM_GRID_REQUEST, {
 			url,
 			apiKey
 		})) as TBaseApiSteamGrid<Record<string, unknown>>
 		if (!response.success) {
 			throw Error(JSON.stringify(response.error))
 		}
-		return response as unknown as T
+		return response as unknown as T*/
+		return Promise.resolve({} as T)
 	} catch (error: any) {
 		throw Error(String(error))
 	}

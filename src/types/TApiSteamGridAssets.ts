@@ -1,5 +1,5 @@
-import ESteamGridStyle from 'renderer/enums/ESteamGridStyle'
-import TBaseApiSteamGrid from 'renderer/types/TBaseApiSteamGrid'
+import ESteamGridStyle from '@/enums/ESteamGridStyle'
+import TBaseApiSteamGrid from '@/types/TBaseApiSteamGrid'
 
 export type TSteamGridAsset = {
 	id: number

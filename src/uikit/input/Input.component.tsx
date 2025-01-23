@@ -1,8 +1,8 @@
 import {faPaste} from '@fortawesome/free-solid-svg-icons'
 import {InputHTMLAttributes, useCallback} from 'react'
-import Button, {EButtonVariant} from 'renderer/uikit/button/Button.component'
+import Button, {EButtonVariant} from '@/uikit/button/Button.component'
 import styles from './Input.module.scss'
-import {clipboard} from 'electron'
+//import {clipboard} from 'electron'
 
 const Input = ({
 	nativeProps,
@@ -12,8 +12,11 @@ const Input = ({
 	onClipboardPaste?: (value: string) => void
 }) => {
 	const onPaste = useCallback(() => {
+		//TODO migrate to Command
+		/*
 		const text = clipboard.readText()
 		onClipboardPaste?.(text)
+		*/
 	}, [onClipboardPaste])
 
 	return (

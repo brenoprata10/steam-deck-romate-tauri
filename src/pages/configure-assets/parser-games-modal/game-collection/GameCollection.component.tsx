@@ -1,9 +1,9 @@
 import {faChevronRight} from '@fortawesome/free-solid-svg-icons'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {useCallback, useState} from 'react'
-import TGame from 'renderer/types/TGame'
-import Checkbox from 'renderer/uikit/checkbox/Checkbox.component'
-import Collapsible from 'renderer/uikit/collapsible/Collapsible.component'
+import TGame from '@/types/TGame'
+import Checkbox from '@/uikit/checkbox/Checkbox.component'
+import Collapsible from '@/uikit/collapsible/Collapsible.component'
 import styles from './GameCollection.module.scss'
 
 const GameCollection = ({

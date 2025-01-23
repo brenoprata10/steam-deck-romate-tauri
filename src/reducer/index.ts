@@ -1,11 +1,11 @@
-import EPlatform from 'main/enums/EPlatform'
-import EAssetType from 'renderer/enums/EAssetType'
-import ELocalStorageKey from 'renderer/enums/ELocalStorageKey'
-import ESetup from 'renderer/enums/ESetup'
-import {TSteamGridAsset} from 'renderer/types/TApiSteamGridAssets'
-import TGame from 'renderer/types/TGame'
-import TGameAssetCollection from 'renderer/types/TGameAssetCollection'
-import TParserConfig from 'renderer/types/TParserConfig'
+import EPlatform from '@/enums/EPlatform'
+import EAssetType from '@/enums/EAssetType'
+import ELocalStorageKey from '@/enums/ELocalStorageKey'
+import ESetup from '@/enums/ESetup'
+import {TSteamGridAsset} from '@/types/TApiSteamGridAssets'
+import TGame from '@/types/TGame'
+import TGameAssetCollection from '@/types/TGameAssetCollection'
+import TParserConfig from '@/types/TParserConfig'
 
 export type TCommonState = {
 	games: TGame[]

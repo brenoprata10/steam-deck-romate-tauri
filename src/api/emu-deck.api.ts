@@ -1,4 +1,4 @@
-import {EMUDECK_PARSERS} from 'renderer/utils/emudeck-parsers'
+import {EMUDECK_PARSERS} from '@/utils/emudeck-parsers'
 
 export const getEmuDeckConfigFile = (emulationFolderPath: string) => {
 	try {

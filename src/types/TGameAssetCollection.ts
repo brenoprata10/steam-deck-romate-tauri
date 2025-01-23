@@ -1,5 +1,5 @@
-import EAssetType from 'renderer/enums/EAssetType'
-import {TSteamGridAsset} from 'renderer/types/TApiSteamGridAssets'
+import EAssetType from '@/enums/EAssetType'
+import {TSteamGridAsset} from '@/types/TApiSteamGridAssets'
 
 type TGameAssetCollection = {
 	[asset in EAssetType]: TSteamGridAsset[]
