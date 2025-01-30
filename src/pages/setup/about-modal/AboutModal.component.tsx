@@ -24,15 +24,17 @@ const AboutModal = ({isOpened, onClose}: {isOpened: boolean; onClose: () => void
 		<span className={styles.contribute}>Contribute:</span>
 		<div className={styles['support-wrapper']}>
 			{SUPPORT_CONFIG.map((config, index) => (
-				<div
+				<a
 					key={`support-about-${index}`}
+					href={config.link}
+					target='_blank'
+					rel='noreferrer'
 					className={styles['support-item']}
-					onClick={() => window.open(config.link, '_blank')}
 				>
 					{config.image && <img className={styles.asset} src={config.image} />}
 					{config.icon && <FontAwesomeIcon className={styles.asset} icon={config.icon} />}
 					<span>{config.label}</span>
-				</div>
+				</a>
 			))}
 		</div>
 		<span className={styles.developer}>Developed with ❤️ by Breno Prata</span>

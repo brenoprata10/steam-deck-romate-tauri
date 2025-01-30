@@ -2,7 +2,7 @@ import {faPaste} from '@fortawesome/free-solid-svg-icons'
 import {InputHTMLAttributes, useCallback} from 'react'
 import Button, {EButtonVariant} from '@/uikit/button/Button.component'
 import styles from './Input.module.scss'
-//import {clipboard} from 'electron'
+import { readText } from '@tauri-apps/plugin-clipboard-manager';
 
 const Input = ({
 	nativeProps,
@@ -11,12 +11,9 @@ const Input = ({
 	nativeProps: InputHTMLAttributes<HTMLInputElement>
 	onClipboardPaste?: (value: string) => void
 }) => {
-	const onPaste = useCallback(() => {
-		//TODO migrate to Command
-		/*
-		const text = clipboard.readText()
+	const onPaste = useCallback(async () => {
+		const text = await readText()
 		onClipboardPaste?.(text)
-		*/
 	}, [onClipboardPaste])
 
 	return (
