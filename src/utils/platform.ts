@@ -1,10 +1,5 @@
-//import {ipcRenderer} from 'electron'
-//import EChannel from '@/enums/EChannel'
-import EPlatform from '@/enums/EPlatform'
+import {platform, Platform} from '@tauri-apps/plugin-os'
 
-	//TODO migrate to Command
-export const getPlatform = async (): Promise<EPlatform> => {
-
-	return Promise.resolve(EPlatform.LINUX)
+export const getPlatform = async (): Promise<Platform> => {
+	return Promise.resolve(platform())
 }
-//(await ipcRenderer.invoke(EChannel.PLATFORM)) as EPlatform

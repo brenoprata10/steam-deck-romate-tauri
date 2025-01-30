@@ -1,9 +1,9 @@
-import EPlatform from '@/enums/EPlatform'
+import {Platform} from '@tauri-apps/plugin-os'
 
 type TSetupConfig = {
 	label: string
 	image: string
-	supportedPlatforms: EPlatform[]
+	supportedPlatforms: Platform[]
 }
 
 export default TSetupConfig

@@ -6,7 +6,6 @@ import fsPromise from 'fs/promises'
 import TUserData from '@/types/TUserData'
 import VDF from 'vdf-parser'
 import TSteamLocalConfig from '@/types/TSteamLocalConfig'
-import EPlatform from '@/enums/EPlatform'
 import {getPlatform} from '@/utils/platform'
 import ESteamUserDataPath from '@/enums/ESteamUserDataPath'
 
@@ -25,13 +24,13 @@ export const getSteamPathConfig = async (
 	| {hasSteamId: false; userDataDirectory: string}
 > => {
 	const platform = await getPlatform()
-	const isWindows = platform === EPlatform.WINDOWS
+	const isWindows = platform === 'windows'
 
 	const userDataDirectory = isWindows
 		? path.join(ESteamUserDataPath.WINDOWS, 'userdata')
-		// TODO migrate
-		//: path.join(homedir(), ESteamUserDataPath.LINUX, 'userdata')
-		: path.join(ESteamUserDataPath.LINUX, 'userdata')
+		: // TODO migrate
+			//: path.join(homedir(), ESteamUserDataPath.LINUX, 'userdata')
+			path.join(ESteamUserDataPath.LINUX, 'userdata')
 
 	if (!steamId) {
 		return {hasSteamId: false, userDataDirectory}
@@ -89,7 +88,6 @@ export const getSteamShortcuts = async ({
 			//TODO migrate
 			//return readVdf(buffer) as {shortcuts: {[id: string]: {[name: string]: string | number}}}
 			return {} as {shortcuts: {[id: string]: {[name: string]: string | number}}}
-
 		}
 		throw Error('User ID is not available.')
 	} catch (error) {
@@ -98,8 +96,14 @@ export const getSteamShortcuts = async ({
 	}
 }
 
-export const saveSteamShortcuts = async ({shortcuts, steamUserId}: {shortcuts:{[name: string]: string | number}; steamUserId: string}) => {
-			//TODO migrate
+export const saveSteamShortcuts = async ({
+	shortcuts,
+	steamUserId
+}: {
+	shortcuts: {[name: string]: string | number}
+	steamUserId: string
+}) => {
+	//TODO migrate
 	//const outBuffer = writeVdf(shortcuts)
 	const outBuffer = {} as unknown as any
 

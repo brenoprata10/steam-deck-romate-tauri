@@ -12,7 +12,12 @@
     "http:default",
     {
       "identifier": "http:default",
-      "allow": [{ "url": "https://www.steamgriddb.com/api/v2*" }]
-    }
+      "allow": [
+        {
+          "url": "https://www.steamgriddb.com/api/v2*"
+        }
+      ]
+    },
+    "os:default"
   ]
 }

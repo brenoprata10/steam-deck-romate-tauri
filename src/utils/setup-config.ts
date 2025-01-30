@@ -1,4 +1,3 @@
-import EPlatform from '@/enums/EPlatform'
 import EMUDECK_IMG from '../assets/setup-assets/emudeck.png'
 import PARSER_IMG from '../assets/setup-assets/code.jpg'
 import CUSTOM_FOLDER_IMG from '../assets/setup-assets/custom-folder.jpg'
@@ -10,22 +9,22 @@ const SETUP_CONFIG: {[setup in ESetup]: TSetupConfig} = {
 	[ESetup.CREATE_PARSERS]: {
 		label: 'Create Parsers',
 		image: PARSER_IMG,
-		supportedPlatforms: [EPlatform.LINUX, EPlatform.WINDOWS]
+		supportedPlatforms: ['linux', 'windows', 'macos']
 	},
 	[ESetup.EMU_DECK]: {
 		label: 'Emu Deck',
 		image: EMUDECK_IMG,
-		supportedPlatforms: [EPlatform.LINUX]
+		supportedPlatforms: ['linux', 'macos']
 	},
 	[ESetup.STEAM_ASSETS]: {
 		label: 'Steam Assets',
 		image: STEAM_IMG,
-		supportedPlatforms: [EPlatform.LINUX, EPlatform.WINDOWS]
+		supportedPlatforms: ['linux', 'windows', 'macos']
 	},
 	[ESetup.CUSTOM_FOLDER]: {
 		label: 'Desktop Files',
 		image: CUSTOM_FOLDER_IMG,
-		supportedPlatforms: [EPlatform.LINUX]
+		supportedPlatforms: ['linux', 'macos']
 	}
 }
 

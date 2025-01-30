@@ -1,4 +1,3 @@
-import EPlatform from '@/enums/EPlatform'
 import EAssetType from '@/enums/EAssetType'
 import ELocalStorageKey from '@/enums/ELocalStorageKey'
 import ESetup from '@/enums/ESetup'
@@ -6,10 +5,11 @@ import {TSteamGridAsset} from '@/types/TApiSteamGridAssets'
 import TGame from '@/types/TGame'
 import TGameAssetCollection from '@/types/TGameAssetCollection'
 import TParserConfig from '@/types/TParserConfig'
+import {Platform} from '@tauri-apps/plugin-os'
 
 export type TCommonState = {
 	games: TGame[]
-	platform?: EPlatform
+	platform?: Platform
 	steamUserId?: string | null
 	setupFlow?: ESetup
 	steamGridApiKey?: string | null
@@ -57,7 +57,7 @@ export type TAction =
 	| {type: EAction.UPDATE_GAMES_ASSETS; payload: Array<{gameId: string; assets?: TGameAssetCollection}>}
 	| {type: EAction.UPDATE_GAME_SEARCH_TERM; payload: {gameId: string; searchTerm: string}}
 	| {type: EAction.SET_CUSTOM_PARSERS; payload: TParserConfig[]}
-	| {type: EAction.SET_PLATFORM; payload: EPlatform}
+	| {type: EAction.SET_PLATFORM; payload: Platform}
 
 export const reducer = (state: TCommonState, action: TAction): TCommonState => {
 	switch (action.type) {
