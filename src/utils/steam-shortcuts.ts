@@ -1,8 +1,7 @@
 import * as path from '@tauri-apps/api/path'
 import {getBufferFileData, getFolderContents, getTextFileData} from '@/utils/files'
-import fsPromise from 'fs/promises'
 import TUserData from '@/types/TUserData'
-import VDF from 'vdf-parser'
+import * as VDF from 'vdf-parser'
 import TSteamLocalConfig from '@/types/TSteamLocalConfig'
 import {getPlatform} from '@/utils/platform'
 import ESteamUserDataPath from '@/enums/ESteamUserDataPath'
@@ -56,8 +55,7 @@ const getSteamUserDataDirectory = async () => {
 export const getSteamLocalConfigData = async (userId: string): Promise<TSteamLocalConfig> => {
 	const steamPathConfig = await getSteamPathConfig(userId)
 	if (steamPathConfig.hasSteamId) {
-		const localConfigPath = steamPathConfig.localConfigFile
-		const localConfigData = await getTextFileData(localConfigPath)
+		const localConfigData = await getTextFileData(steamPathConfig.localConfigFile)
 		return VDF.parse(localConfigData) as TSteamLocalConfig
 	}
 	throw Error('User ID is not available.')
@@ -74,10 +72,12 @@ export const getAvailableUserAccounts = async (): Promise<TUserData[]> => {
 	for (const user of users) {
 		try {
 			const localConfigData = await getSteamLocalConfigData(user.id)
+			console.log(localConfigData)
 			const userData = localConfigData.UserLocalConfigStore.friends[user.id]
 			user.name = userData.name ?? userData.NameHistory?.[0]
 			user.avatarPictureSrc = `${STEAM_AVATAR_AKAMAI_URL}/${userData.avatar}_full.jpg`
 		} catch (error) {
+			console.error(error)
 			console.error(`Could not load localconfig.vdf file for user: ${user.id}`)
 		}
 	}
@@ -118,7 +118,8 @@ export const saveSteamShortcuts = async ({
 
 	const steamPathConfig = await getSteamPathConfig(steamUserId)
 	if (steamPathConfig.hasSteamId) {
-		await fsPromise.writeFile(steamPathConfig.shortcutsFile, outBuffer)
+		//TODO migrate
+		//await fsPromise.writeFile(steamPathConfig.shortcutsFile, outBuffer)
 		return
 	}
 	throw Error('User ID is not available.')

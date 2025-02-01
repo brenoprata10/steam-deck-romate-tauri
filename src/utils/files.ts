@@ -1,5 +1,4 @@
-import {BaseDirectory, readDir} from '@tauri-apps/plugin-fs'
-import fsPromise from 'fs/promises'
+import {BaseDirectory, readDir, readTextFile} from '@tauri-apps/plugin-fs'
 
 export const getFolderContents = async (
 	folderPath: string,
@@ -30,11 +29,13 @@ export const getFolderContents = async (
 }
 
 export const getTextFileData = (path: string): Promise<string> => {
-	return fsPromise.readFile(path, {encoding: 'utf8'})
+	return readTextFile(path)
 }
 
 export const getBufferFileData = (path: string): Promise<Buffer> => {
-	return fsPromise.readFile(path)
+	//TODO migrate
+	//return fsPromise.readFile(path)
+	return Promise.resolve({})
 }
 
 export const getFileExtension = (fileName: string) => {
