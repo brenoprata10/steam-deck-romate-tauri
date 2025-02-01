@@ -1,6 +1,4 @@
-//TODO migrate
-//import {homedir} from 'os'
-import path from 'path'
+import * as path from '@tauri-apps/api/path'
 import {getBufferFileData, getFolderContents, getTextFileData} from '@/utils/files'
 import fsPromise from 'fs/promises'
 import TUserData from '@/types/TUserData'
@@ -23,14 +21,7 @@ export const getSteamPathConfig = async (
 	  }
 	| {hasSteamId: false; userDataDirectory: string}
 > => {
-	const platform = await getPlatform()
-	const isWindows = platform === 'windows'
-
-	const userDataDirectory = isWindows
-		? path.join(ESteamUserDataPath.WINDOWS, 'userdata')
-		: // TODO migrate
-			//: path.join(homedir(), ESteamUserDataPath.LINUX, 'userdata')
-			path.join(ESteamUserDataPath.LINUX, 'userdata')
+	const userDataDirectory = await getSteamUserDataDirectory()
 
 	if (!steamId) {
 		return {hasSteamId: false, userDataDirectory}
@@ -39,9 +30,26 @@ export const getSteamPathConfig = async (
 	return {
 		hasSteamId: true,
 		userDataDirectory,
-		assetsDirectory: path.join(userDataDirectory, steamId, 'config', 'grid'),
-		shortcutsFile: path.join(userDataDirectory, steamId, 'config', 'shortcuts.vdf'),
-		localConfigFile: path.join(userDataDirectory, steamId, 'config', 'localconfig.vdf')
+		assetsDirectory: await path.join(userDataDirectory, steamId, 'config', 'grid'),
+		shortcutsFile: await path.join(userDataDirectory, steamId, 'config', 'shortcuts.vdf'),
+		localConfigFile: await path.join(userDataDirectory, steamId, 'config', 'localconfig.vdf')
+	}
+}
+
+const getSteamUserDataDirectory = async () => {
+	const platform = await getPlatform()
+	const home = await path.homeDir()
+
+	switch (platform) {
+		case 'windows': {
+			return path.join(ESteamUserDataPath.WINDOWS, 'userdata')
+		}
+		case 'linux': {
+			return path.join(home, ESteamUserDataPath.LINUX, 'userdata')
+		}
+		default: {
+			return path.join(home, ESteamUserDataPath.MAC, 'userdata')
+		}
 	}
 }
 
@@ -57,7 +65,8 @@ export const getSteamLocalConfigData = async (userId: string): Promise<TSteamLoc
 
 export const getAvailableUserAccounts = async (): Promise<TUserData[]> => {
 	const steamPathConfig = await getSteamPathConfig()
-	const usersId = getFolderContents(steamPathConfig.userDataDirectory)
+	const usersId = await getFolderContents(steamPathConfig.userDataDirectory)
+	console.log({usersId})
 	const users: TUserData[] = usersId.map((userId) => ({
 		id: userId.name
 	}))

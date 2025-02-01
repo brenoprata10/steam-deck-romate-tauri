@@ -18,6 +18,11 @@
         }
       ]
     },
-    "os:default"
+    "os:default",
+    "fs:default",
+    {
+      "identifier": "fs:read-all",
+      "allow": [{ "path": "$HOME/Library/Application Support/Steam/**" }]
+    }
   ]
 }

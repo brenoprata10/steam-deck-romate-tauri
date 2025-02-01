@@ -1,24 +1,24 @@
-import fs from 'fs'
+import {BaseDirectory, readDir} from '@tauri-apps/plugin-fs'
 import fsPromise from 'fs/promises'
 
-export const getFolderContents = (
+export const getFolderContents = async (
 	folderPath: string,
 	options?: {scanSubDirectories: boolean}
-): Array<{path: string; name: string}> => {
+): Promise<Array<{path: string; name: string}>> => {
 	try {
-		const folderContents = fs.readdirSync(folderPath, {withFileTypes: true})
+		const folderContents = await readDir(folderPath, {baseDir: BaseDirectory.Home})
 		if (!options?.scanSubDirectories) {
 			return folderContents.map((content) => ({path: folderPath, name: content.name}))
 		}
 
 		let folderContentsWithSubdirectories: {path: string; name: string}[] = []
 		for (const content of folderContents) {
-			content.isDirectory()
-				? (folderContentsWithSubdirectories = [
-						...folderContentsWithSubdirectories,
-						...getFolderContents(`${folderPath}/${content.name}`, {scanSubDirectories: true})
-				  ])
-				: folderContentsWithSubdirectories.push({path: folderPath, name: content.name})
+			if (content.isDirectory) {
+				const innerFolderContents = await getFolderContents(`${folderPath}/${content.name}`, {scanSubDirectories: true})
+				folderContentsWithSubdirectories = [...folderContentsWithSubdirectories, ...innerFolderContents]
+				continue
+			}
+			folderContentsWithSubdirectories.push({path: folderPath, name: content.name})
 		}
 
 		return folderContentsWithSubdirectories
