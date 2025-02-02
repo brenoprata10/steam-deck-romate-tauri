@@ -44,8 +44,8 @@ const Setup = () => {
 	const {trigger: selectFolder} = useSelectFolder('Select "Emulation" folder used for Emu Deck Setup')
 
 	const getCustomFolderGames = useCallback(async (): Promise<TGame[]> => {
-		const {canceled, filePaths} = await selectMultipleFiles()
-		if (canceled || filePaths.length === 0) {
+		const filePaths = await selectMultipleFiles()
+		if (!filePaths || filePaths.length === 0) {
 			return []
 		}
 		const games: TGame[] = []
@@ -57,11 +57,10 @@ const Setup = () => {
 	}, [selectMultipleFiles])
 
 	const getEmuDeckGames = useCallback(async (): Promise<TGame[]> => {
-		const {canceled, filePaths} = await selectFolder()
-		if (canceled || filePaths.length === 0) {
+		const emulationFolderPath = await selectFolder()
+		if (!emulationFolderPath) {
 			return []
 		}
-		const emulationFolderPath = filePaths[0]
 		const emuDeckConfig = getEmuDeckConfigFile(emulationFolderPath)
 		return getGamesFromParsers(emuDeckConfig)
 	}, [selectFolder])

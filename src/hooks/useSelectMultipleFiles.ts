@@ -1,5 +1,4 @@
-//import EChannel from '@/enums/EChannel'
-import {TFolderPath} from '@/types/TFilePath'
+import {open} from '@tauri-apps/plugin-dialog'
 
 const useSelectMultipleFiles = ({
 	title,
@@ -7,10 +6,16 @@ const useSelectMultipleFiles = ({
 }: {
 	title: string
 	extensions: string[]
-}): {trigger: () => Promise<TFolderPath>} => {
-	//TODO migrate to Command
-	//return {trigger: () => Electron.ipcRenderer.invoke(EChannel.SELECT_MULTIPLE_FILES, title, ...extensions)}
-	return {trigger: () => Promise.resolve({canceled: false, filePaths: []})}
+}): {trigger: () => Promise<string[] | null>} => {
+	return {
+		trigger: async () => {
+			const selected = await open({title, multiple: true, filters: [{name: '', extensions}]})
+			if (selected === null) {
+				return []
+			}
+			return Array.isArray(selected) ? selected : [selected]
+		}
+	}
 }
 
 export default useSelectMultipleFiles

@@ -1,11 +1,15 @@
-//import EChannel from '@/enums/EChannel'
-import {TFolderPath} from '@/types/TFilePath'
+import {open} from '@tauri-apps/plugin-dialog'
 
-const useSelectFolder = (title: string): {trigger: () => Promise<TFolderPath>} => {
-	//TODO migrate to Command
-	// use Dialog plugin here
-	//return {trigger: () => Electron.ipcRenderer.invoke(EChannel.SELECT_FOLDER, title)}
-	return {trigger: () => Promise.resolve({canceled: false, filePaths: []})}
+const useSelectFolder = (title: string): {trigger: () => Promise<string | null>} => {
+	return {
+		trigger: () =>
+			open({
+				title,
+				multiple: false,
+				directory: true,
+				recursive: false
+			})
+	}
 }
 
 export default useSelectFolder

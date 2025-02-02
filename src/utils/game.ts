@@ -18,11 +18,12 @@ export const getGameFromDesktopFile = async (path: string): Promise<TGame> => {
 	const fileData = await getTextFileData(path)
 
 	for (const line of fileData.split('\n')) {
-		const isLineWithAssignedValue = line.match(`${propertyNameRegex}${valuePropertyRegex}`)
+		const formattedLine = line.replace('\t', '')
+		const isLineWithAssignedValue = formattedLine.match(`${propertyNameRegex}${valuePropertyRegex}`)
 		if (!isLineWithAssignedValue) {
 			continue
 		}
-		const propertyName = line.match(propertyNameRegex)?.[0]
+		const propertyName = formattedLine.match(propertyNameRegex)?.[0]
 		const gameProperty = DESKTOP_FILE_PROPERTY_CONFIG[propertyName ?? '']
 		const value = line.match(valuePropertyRegex)?.[0].replace('=', '')
 

@@ -4,8 +4,8 @@ import {getFileExtension, getFolderContents, getFileNameWithoutExtension} from '
 import {generateShortAppId} from '@/utils/generate-app-id'
 import {getGameSearchTerm} from '@/utils/game'
 
-export const getGamesFromParser = (parser: TParserConfig): TGame[] => {
-	const files = getFolderContents(parser.romDirectory, {scanSubDirectories: true})
+export const getGamesFromParser = async (parser: TParserConfig): Promise<TGame[]> => {
+	const files = await getFolderContents(parser.romDirectory, {scanSubDirectories: true})
 	const romsFileNames = files.filter((file) =>
 		parser.supportedFileTypes.some((fileType) => fileType === getFileExtension(file.name))
 	)
@@ -29,10 +29,10 @@ export const getGamesFromParser = (parser: TParserConfig): TGame[] => {
 		.map((game): TGame => ({...game, searchTerm: getGameSearchTerm(game)}))
 }
 
-export const getGamesFromParsers = (parsers: TParserConfig[]): TGame[] => {
+export const getGamesFromParsers = async (parsers: TParserConfig[]): Promise<TGame[]> => {
 	const games = []
 	for (const parser of parsers) {
-		games.push(...getGamesFromParser(parser))
+		games.push(...(await getGamesFromParser(parser)))
 	}
 
 	return games

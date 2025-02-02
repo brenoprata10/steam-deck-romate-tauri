@@ -23,9 +23,14 @@
     {
       "identifier": "fs:read-all",
       "allow": [
-	      { "path": "$HOME/Library/Application Support/Steam/**" },
-	      { "path": "$HOME/.steam/steam/**" }
+        {
+          "path": "$HOME/Library/Application Support/Steam/**"
+        },
+        {
+          "path": "$HOME/.steam/steam/**"
+        }
       ]
-    }
+    },
+    "dialog:default"
   ]
 }
