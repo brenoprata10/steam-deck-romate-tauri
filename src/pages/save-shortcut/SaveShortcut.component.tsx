@@ -24,6 +24,7 @@ import {getCategoriesByUser, saveCategoryByUser} from '@/utils/steam-categories'
 import {getSteamPathConfig, getSteamShortcuts, saveSteamShortcuts} from '@/utils/steam-shortcuts'
 import styles from './SaveShortcut.module.scss'
 import EAssetType from '@/enums/EAssetType'
+import {invoke} from '@tauri-apps/api/core'
 
 enum EStep {
 	DOWNLOAD_ASSETS = 'Downloading assets',
@@ -86,6 +87,8 @@ const SaveShortcut = () => {
 						fileName,
 						directory: steamPath.assetsDirectory
 					})*/
+					const asd = await invoke('test')
+					console.log(asd)
 					addToLog(
 						`Downloaded: ${game.name} / ${assetType.toLocaleLowerCase()} - ${fileName} - ${selectedAsset.url}`,
 						SECONDARY_LOG_COLOR
@@ -117,7 +120,9 @@ const SaveShortcut = () => {
 			throw Error('Steam user Id not provided.')
 		}
 
-		const shortcutsObject = (await getSteamShortcuts({steamUserId})) as {shortcuts: {[id: string]: {[name: string]: string | number}}}
+		const shortcutsObject = (await getSteamShortcuts({steamUserId})) as {
+			shortcuts: {[id: string]: {[name: string]: string | number}}
+		}
 
 		for (const game of games) {
 			const selectedIcon = getSelectedAsset({assets: game.assets?.ICON ?? []})
@@ -150,13 +155,16 @@ const SaveShortcut = () => {
 			throw Error('Steam user Id not provided.')
 		}
 
-		const collections = games.reduce((result, game) => {
-			const firstCollection = game.collections?.[0]
-			if (!firstCollection) {
-				return result
-			}
-			return {...result, [firstCollection]: [...(result[firstCollection] ?? []), Number(game.id)]}
-		}, {} as {[collection in string]: number[]})
+		const collections = games.reduce(
+			(result, game) => {
+				const firstCollection = game.collections?.[0]
+				if (!firstCollection) {
+					return result
+				}
+				return {...result, [firstCollection]: [...(result[firstCollection] ?? []), Number(game.id)]}
+			},
+			{} as {[collection in string]: number[]}
+		)
 
 		if (Object.keys(collections).length === 0) {
 			return
