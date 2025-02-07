@@ -1,6 +1,5 @@
 use assets::download_asset;
 
-mod api;
 mod assets;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

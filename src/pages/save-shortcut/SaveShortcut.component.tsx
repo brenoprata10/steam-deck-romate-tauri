@@ -34,6 +34,7 @@ enum EStep {
 
 const PRIMARY_LOG_COLOR = 'yellow'
 const SECONDARY_LOG_COLOR = 'cyan'
+const ERROR_LOG_COLOR = 'red'
 
 const PROMISE_THROTTLE = new PromiseThrottle({
 	requestsPerSecond: 1
@@ -81,18 +82,22 @@ const SaveShortcut = () => {
 					const assetExtension = getFileExtension(selectedAsset.mime)
 					const fileName = getAssetFileName(game.id, assetExtension)[assetType]
 
-					// TODO migrate to Tauri Command
-					/*await Electron.ipcRenderer.invoke(EChannel.DOWNLOAD_ASSET, {
-						url: selectedAsset.url,
-						fileName,
-						directory: steamPath.assetsDirectory
-					})*/
-					const asd = await invoke('test')
-					console.log(asd)
-					addToLog(
-						`Downloaded: ${game.name} / ${assetType.toLocaleLowerCase()} - ${fileName} - ${selectedAsset.url}`,
-						SECONDARY_LOG_COLOR
-					)
+					try {
+						await invoke('download_asset', {
+							url: selectedAsset.url,
+							fileName,
+							directory: steamPath.assetsDirectory
+						})
+						addToLog(
+							`Downloaded: ${game.name} / ${assetType.toLocaleLowerCase()} - ${fileName} - ${selectedAsset.url}`,
+							SECONDARY_LOG_COLOR
+						)
+					} catch (error) {
+						addToLog(
+							`Failed to download: ${game.name} / ${assetType.toLocaleLowerCase()} - ${fileName} - ${selectedAsset.url}.\nError: ${error}`,
+							ERROR_LOG_COLOR
+						)
+					}
 				}
 			}
 		}
