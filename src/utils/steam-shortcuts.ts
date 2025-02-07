@@ -1,10 +1,12 @@
 import * as path from '@tauri-apps/api/path'
+import {readVdf, VdfMap, writeVdf} from '@/utils/steam-binary-vdf'
 import {getBufferFileData, getFolderContents, getTextFileData} from '@/utils/files'
 import TUserData from '@/types/TUserData'
 import * as VDF from 'vdf-parser'
 import TSteamLocalConfig from '@/types/TSteamLocalConfig'
 import {getPlatform} from '@/utils/platform'
 import ESteamUserDataPath from '@/enums/ESteamUserDataPath'
+import {writeFile} from '@tauri-apps/plugin-fs'
 
 const STEAM_AVATAR_AKAMAI_URL = 'https://avatars.akamai.steamstatic.com'
 
@@ -89,37 +91,26 @@ export const getSteamShortcuts = async ({
 	steamUserId
 }: {
 	steamUserId: string
-}): Promise<{shortcuts: {[id: string]: {[name: string]: string | number}}}> => {
+}): Promise<{shortcuts: {[id: string]: VdfMap}}> => {
 	try {
 		const steamPathConfig = await getSteamPathConfig(steamUserId)
 		if (steamPathConfig.hasSteamId) {
 			const buffer = await getBufferFileData(steamPathConfig.shortcutsFile)
-			//TODO migrate
-			//return readVdf(buffer) as {shortcuts: {[id: string]: {[name: string]: string | number}}}
-			return {} as {shortcuts: {[id: string]: {[name: string]: string | number}}}
+			return readVdf(buffer) as {shortcuts: {[id: string]: {[name: string]: string | number}}}
 		}
 		throw Error('User ID is not available.')
 	} catch (error) {
-		console.warn('Could not locate shortcuts.vdf file.')
+		console.warn(`Could not locate shortcuts.vdf file. Error: ${error}`)
 		return {shortcuts: {}}
 	}
 }
 
-export const saveSteamShortcuts = async ({
-	shortcuts,
-	steamUserId
-}: {
-	shortcuts: {[name: string]: string | number}
-	steamUserId: string
-}) => {
-	//TODO migrate
-	//const outBuffer = writeVdf(shortcuts)
-	const outBuffer = {} as unknown as any
+export const saveSteamShortcuts = async ({shortcuts, steamUserId}: {shortcuts: VdfMap; steamUserId: string}) => {
+	const outBuffer = writeVdf(shortcuts)
 
 	const steamPathConfig = await getSteamPathConfig(steamUserId)
 	if (steamPathConfig.hasSteamId) {
-		//TODO migrate
-		//await fsPromise.writeFile(steamPathConfig.shortcutsFile, outBuffer)
+		await writeFile(steamPathConfig.shortcutsFile, outBuffer)
 		return
 	}
 	throw Error('User ID is not available.')
