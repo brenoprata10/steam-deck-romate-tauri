@@ -1,11 +1,10 @@
 import * as path from '@tauri-apps/api/path'
-import {getBufferFileData, getFolderContents, getTextFileData} from '@/utils/files'
+import {getFolderContents, getTextFileData} from '@/utils/files'
 import TUserData from '@/types/TUserData'
 import * as VDF from 'vdf-parser'
 import TSteamLocalConfig from '@/types/TSteamLocalConfig'
 import {getPlatform} from '@/utils/platform'
 import ESteamUserDataPath from '@/enums/ESteamUserDataPath'
-import {writeFile} from '@tauri-apps/plugin-fs'
 import {invoke} from '@tauri-apps/api/core'
 import TSteamShortcut from '@/types/TSteamShortcut'
 

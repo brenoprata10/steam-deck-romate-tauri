@@ -1,4 +1,4 @@
-use steam_shortcuts_util::{self, Shortcut };
+use steam_shortcuts_util::{self, app_id_generator::calculate_app_id, Shortcut};
 use std::fs;
 use serde::{Serialize, Deserialize};
 
@@ -41,20 +41,26 @@ pub fn get_shortcuts(shortcut_path: &str) -> Result<Vec<ParsedShortcut>, String>
 
 #[tauri::command]
 pub fn save_shortcuts(shortcut_path: &str, shortcuts: Vec<ParsedShortcut>) -> Result<(), String> {
-    println!("{}", shortcut_path);
-    println!("{:?}", shortcuts);
     let empty_string = String::new();
     let parsed_shortcuts = shortcuts
         .iter()
-        .map(|shortcut| Shortcut::new(
-            &empty_string,
-            &shortcut.app_name,
-            &shortcut.exe,
-            &empty_string, 
-            &shortcut.icon,
-            &empty_string,
-            &shortcut.launch_options
-        )).collect();
+        .map(|shortcut| {
+            let mut steam_shortcut = Shortcut::new(
+                &empty_string,
+                &shortcut.app_name,
+                &shortcut.exe,
+                &empty_string, 
+                &shortcut.icon,
+                &empty_string,
+                &shortcut.launch_options
+            );
+            steam_shortcut.app_id = shortcut.app_id
+                .parse()
+                .unwrap_or(
+                    calculate_app_id(&shortcut.exe, &shortcut.app_name)
+                );
+            steam_shortcut
+        }).collect();
     let shortcut_bytes_vec = steam_shortcuts_util::shortcuts_to_bytes(&parsed_shortcuts);
     fs::write(shortcut_path,shortcut_bytes_vec).map_err(|error| error.to_string())?;
 

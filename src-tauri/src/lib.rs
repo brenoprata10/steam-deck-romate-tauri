@@ -13,7 +13,11 @@ pub fn run() {
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_clipboard_manager::init())
-        .invoke_handler(tauri::generate_handler![download_asset, get_shortcuts, save_shortcuts])
+        .invoke_handler(tauri::generate_handler![
+            download_asset,
+            get_shortcuts,
+            save_shortcuts
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
