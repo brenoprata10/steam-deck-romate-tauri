@@ -7,6 +7,7 @@ import {getPlatform} from '@/utils/platform'
 import ESteamUserDataPath from '@/enums/ESteamUserDataPath'
 import {writeFile} from '@tauri-apps/plugin-fs'
 import {invoke} from '@tauri-apps/api/core'
+import TSteamShortcut from '@/types/TSteamShortcut'
 
 const STEAM_AVATAR_AKAMAI_URL = 'https://avatars.akamai.steamstatic.com'
 
@@ -85,22 +86,18 @@ export const getAvailableUserAccounts = async (): Promise<TUserData[]> => {
 	return users
 }
 
-export const getSteamShortcuts = async ({
-	steamUserId
-}: {
-	steamUserId: string
-}): Promise<{[id: string]: {[name: string]: string | number}}> => {
+export const getSteamShortcuts = async ({steamUserId}: {steamUserId: string}): Promise<TSteamShortcut[]> => {
 	try {
 		const steamPathConfig = await getSteamPathConfig(steamUserId)
 		if (steamPathConfig.hasSteamId) {
 			const shortcuts = await invoke('get_shortcuts', {shortcutPath: steamPathConfig.shortcutsFile})
 			console.log(shortcuts)
-			return shortcuts as {[id: string]: {[name: string]: string | number}}
+			return shortcuts as TSteamShortcut[]
 		}
 		throw Error('User ID is not available.')
 	} catch (error) {
 		console.warn(`Could not locate shortcuts.vdf file. Error: ${error}`)
-		return {shortcuts: {}}
+		return []
 	}
 }
 
@@ -108,16 +105,18 @@ export const saveSteamShortcuts = async ({
 	shortcuts,
 	steamUserId
 }: {
-	shortcuts: {[name: string]: string | number}
+	shortcuts: TSteamShortcut[]
 	steamUserId: string
 }) => {
-	//const outBuffer = writeVdf(shortcuts)
-	const outBuffer = {} as unknown as any
-
-	const steamPathConfig = await getSteamPathConfig(steamUserId)
-	if (steamPathConfig.hasSteamId) {
-		await writeFile(steamPathConfig.shortcutsFile, outBuffer)
-		return
+	try {
+		const steamPathConfig = await getSteamPathConfig(steamUserId)
+		if (steamPathConfig.hasSteamId) {
+			console.log({shortcuts})
+			await invoke('save_shortcuts', {shortcutPath: steamPathConfig.shortcutsFile, shortcuts})
+			return
+		}
+		throw Error('User ID is not available.')
+	} catch (error) {
+		console.warn(`Could not locate shortcuts.vdf file. Error: ${error}`)
 	}
-	throw Error('User ID is not available.')
 }

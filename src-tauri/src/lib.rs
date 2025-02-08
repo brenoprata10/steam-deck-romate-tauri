@@ -1,5 +1,5 @@
 use asset::download_asset;
-use steam_shortcut::get_shortcuts;
+use steam_shortcut::{get_shortcuts, save_shortcuts};
 
 mod asset;
 mod steam_shortcut;
@@ -13,7 +13,7 @@ pub fn run() {
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_clipboard_manager::init())
-        .invoke_handler(tauri::generate_handler![download_asset, get_shortcuts])
+        .invoke_handler(tauri::generate_handler![download_asset, get_shortcuts, save_shortcuts])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

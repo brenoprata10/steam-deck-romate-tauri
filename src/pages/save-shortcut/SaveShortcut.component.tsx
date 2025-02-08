@@ -25,6 +25,7 @@ import {getSteamPathConfig, getSteamShortcuts, saveSteamShortcuts} from '@/utils
 import styles from './SaveShortcut.module.scss'
 import EAssetType from '@/enums/EAssetType'
 import {invoke} from '@tauri-apps/api/core'
+import TSteamShortcut from '@/types/TSteamShortcut'
 
 enum EStep {
 	DOWNLOAD_ASSETS = 'Downloading assets',
@@ -125,33 +126,29 @@ const SaveShortcut = () => {
 			throw Error('Steam user Id not provided.')
 		}
 
-		const shortcutsObject = (await getSteamShortcuts({steamUserId})) as {
-			shortcuts: {[id: string]: {[name: string]: string | number}}
-		}
+		const shortcuts = await getSteamShortcuts({steamUserId})
 
 		for (const game of games) {
 			const selectedIcon = getSelectedAsset({assets: game.assets?.ICON ?? []})
 			const iconFileExtension = getFileExtension(selectedIcon?.mime ?? '')
 			const iconPath = `${steamPath.assetsDirectory}/${getAssetFileName(game.id, iconFileExtension).ICON}`
-			const shortcutValue = {
-				AppName: game.name,
-				Exe: game.exec ?? '',
-				AppId: game.id,
+			const shortcutValue: TSteamShortcut = {
+				appName: game.name,
+				exe: game.exec ?? '',
+				appId: game.id,
 				icon: iconPath,
-				LaunchOptions: game.launchOptions ?? ''
+				launchOptions: game.launchOptions ?? ''
 			}
-			const shortcutsValue = Object.values(shortcutsObject.shortcuts)
-			const persistedGame = shortcutsValue.find((shortcut) => shortcut.AppId == game.id || shortcut.appid == game.id)
+			const persistedGame = shortcuts.find((shortcut) => shortcut.appId == game.id)
 
 			if (persistedGame) {
-				const index = shortcutsValue.indexOf(persistedGame)
-				shortcutsObject.shortcuts[index] = shortcutValue
+				const index = shortcuts.indexOf(persistedGame)
+				shortcuts[index] = shortcutValue
 			} else {
-				shortcutsObject.shortcuts[shortcutsValue.length] = shortcutValue
+				shortcuts[shortcuts.length] = shortcutValue
 			}
 		}
-		await saveSteamShortcuts({shortcuts: shortcutsObject, steamUserId})
-		console.log({shortcutsObject})
+		await saveSteamShortcuts({shortcuts, steamUserId})
 		addToLog('Saving shortcut.vdf to Steam folder.', PRIMARY_LOG_COLOR)
 	}
 
