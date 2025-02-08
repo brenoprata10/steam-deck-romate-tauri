@@ -1,5 +1,4 @@
 import * as path from '@tauri-apps/api/path'
-import {readVdf, VdfMap, writeVdf} from '@/utils/steam-binary-vdf'
 import {getBufferFileData, getFolderContents, getTextFileData} from '@/utils/files'
 import TUserData from '@/types/TUserData'
 import * as VDF from 'vdf-parser'
@@ -7,6 +6,7 @@ import TSteamLocalConfig from '@/types/TSteamLocalConfig'
 import {getPlatform} from '@/utils/platform'
 import ESteamUserDataPath from '@/enums/ESteamUserDataPath'
 import {writeFile} from '@tauri-apps/plugin-fs'
+import {invoke} from '@tauri-apps/api/core'
 
 const STEAM_AVATAR_AKAMAI_URL = 'https://avatars.akamai.steamstatic.com'
 
@@ -66,7 +66,6 @@ export const getSteamLocalConfigData = async (userId: string): Promise<TSteamLoc
 export const getAvailableUserAccounts = async (): Promise<TUserData[]> => {
 	const steamPathConfig = await getSteamPathConfig()
 	const usersId = await getFolderContents(steamPathConfig.userDataDirectory)
-	console.log({usersId})
 	const users: TUserData[] = usersId.map((userId) => ({
 		id: userId.name
 	}))
@@ -74,7 +73,6 @@ export const getAvailableUserAccounts = async (): Promise<TUserData[]> => {
 	for (const user of users) {
 		try {
 			const localConfigData = await getSteamLocalConfigData(user.id)
-			console.log(localConfigData)
 			const userData = localConfigData.UserLocalConfigStore.friends[user.id]
 			user.name = userData.name ?? userData.NameHistory?.[0]
 			user.avatarPictureSrc = `${STEAM_AVATAR_AKAMAI_URL}/${userData.avatar}_full.jpg`
@@ -91,12 +89,13 @@ export const getSteamShortcuts = async ({
 	steamUserId
 }: {
 	steamUserId: string
-}): Promise<{shortcuts: {[id: string]: VdfMap}}> => {
+}): Promise<{[id: string]: {[name: string]: string | number}}> => {
 	try {
 		const steamPathConfig = await getSteamPathConfig(steamUserId)
 		if (steamPathConfig.hasSteamId) {
-			const buffer = await getBufferFileData(steamPathConfig.shortcutsFile)
-			return readVdf(buffer) as {shortcuts: {[id: string]: {[name: string]: string | number}}}
+			const shortcuts = await invoke('get_shortcuts', {shortcutPath: steamPathConfig.shortcutsFile})
+			console.log(shortcuts)
+			return shortcuts as {[id: string]: {[name: string]: string | number}}
 		}
 		throw Error('User ID is not available.')
 	} catch (error) {
@@ -105,8 +104,15 @@ export const getSteamShortcuts = async ({
 	}
 }
 
-export const saveSteamShortcuts = async ({shortcuts, steamUserId}: {shortcuts: VdfMap; steamUserId: string}) => {
-	const outBuffer = writeVdf(shortcuts)
+export const saveSteamShortcuts = async ({
+	shortcuts,
+	steamUserId
+}: {
+	shortcuts: {[name: string]: string | number}
+	steamUserId: string
+}) => {
+	//const outBuffer = writeVdf(shortcuts)
+	const outBuffer = {} as unknown as any
 
 	const steamPathConfig = await getSteamPathConfig(steamUserId)
 	if (steamPathConfig.hasSteamId) {

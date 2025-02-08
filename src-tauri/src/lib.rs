@@ -1,6 +1,8 @@
-use assets::download_asset;
+use asset::download_asset;
+use steam_shortcut::get_shortcuts;
 
-mod assets;
+mod asset;
+mod steam_shortcut;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -11,7 +13,7 @@ pub fn run() {
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_clipboard_manager::init())
-        .invoke_handler(tauri::generate_handler![download_asset])
+        .invoke_handler(tauri::generate_handler![download_asset, get_shortcuts])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
