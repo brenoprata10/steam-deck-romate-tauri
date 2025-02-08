@@ -1,6 +1,7 @@
 use steam_shortcuts_util::{self, app_id_generator::calculate_app_id, Shortcut};
 use std::fs;
 use serde::{Serialize, Deserialize};
+use crate::enums::error::Error;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ParsedShortcut {
@@ -28,9 +29,10 @@ impl ParsedShortcut {
 }
 
 #[tauri::command]
-pub fn get_shortcuts(shortcut_path: &str) -> Result<Vec<ParsedShortcut>, String> {
-    let content = fs::read(shortcut_path).map_err(|error| error.to_string())?;
-    let steam_shortcuts = steam_shortcuts_util::parse_shortcuts(content.as_slice())?;
+pub fn get_shortcuts(shortcut_path: &str) -> Result<Vec<ParsedShortcut>, Error> {
+    let content = fs::read(shortcut_path)?;
+    let steam_shortcuts = steam_shortcuts_util::parse_shortcuts(content.as_slice())
+        .map_err(Error::SteamShortcut)?;
     let parsed_shortcuts = steam_shortcuts
         .into_iter()
         .map(|shortcut| ParsedShortcut::new(shortcut))
@@ -40,7 +42,7 @@ pub fn get_shortcuts(shortcut_path: &str) -> Result<Vec<ParsedShortcut>, String>
 }
 
 #[tauri::command]
-pub fn save_shortcuts(shortcut_path: &str, shortcuts: Vec<ParsedShortcut>) -> Result<(), String> {
+pub fn save_shortcuts(shortcut_path: &str, shortcuts: Vec<ParsedShortcut>) -> Result<(), Error> {
     let empty_string = String::new();
     let parsed_shortcuts = shortcuts
         .iter()
@@ -62,7 +64,7 @@ pub fn save_shortcuts(shortcut_path: &str, shortcuts: Vec<ParsedShortcut>) -> Re
             steam_shortcut
         }).collect();
     let shortcut_bytes_vec = steam_shortcuts_util::shortcuts_to_bytes(&parsed_shortcuts);
-    fs::write(shortcut_path,shortcut_bytes_vec).map_err(|error| error.to_string())?;
+    fs::write(shortcut_path,shortcut_bytes_vec)?;
 
     Ok(())
 }

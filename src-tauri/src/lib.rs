@@ -3,6 +3,7 @@ use steam_shortcut::{get_shortcuts, save_shortcuts};
 
 mod asset;
 mod steam_shortcut;
+mod enums;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
