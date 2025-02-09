@@ -26,6 +26,7 @@ import {getGamesFromParsers} from '@/utils/parser'
 import {getSetupConfig} from '@/utils/setup-config'
 import {getSteamGamesByUserId} from '@/utils/steam-assets'
 import styles from './Setup.module.scss'
+import TParserConfig from '@/types/TParserConfig'
 
 const Setup = () => {
 	const [isAboutModalOpened, setIsAboutModalOpened] = useState(false)
@@ -61,7 +62,7 @@ const Setup = () => {
 		if (!emulationFolderPath) {
 			return []
 		}
-		const emuDeckConfig = getEmuDeckConfigFile(emulationFolderPath)
+		const emuDeckConfig: TParserConfig[] = await getEmuDeckConfigFile(emulationFolderPath)
 		return getGamesFromParsers(emuDeckConfig)
 	}, [selectFolder])
 

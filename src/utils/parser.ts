@@ -32,7 +32,11 @@ export const getGamesFromParser = async (parser: TParserConfig): Promise<TGame[]
 export const getGamesFromParsers = async (parsers: TParserConfig[]): Promise<TGame[]> => {
 	const games = []
 	for (const parser of parsers) {
-		games.push(...(await getGamesFromParser(parser)))
+		const foundGames = await getGamesFromParser(parser)
+		games.push(...foundGames)
+		if (foundGames.length > 0) {
+			console.log({parser, games: await getGamesFromParser(parser)})
+		}
 	}
 
 	return games

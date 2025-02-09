@@ -15,7 +15,10 @@
       "allow": [
         {
           "url": "https://www.steamgriddb.com/api/v2*"
-        }
+        },
+	{
+	  "url": "https://raw.githubusercontent.com/dragoonDorise/EmuDeck/main/configs/steam-rom-manager/userData/userConfigurations.json"
+	}
       ]
     },
     "os:default",
@@ -23,6 +26,9 @@
     {
       "identifier": "fs:read-all",
       "allow": [
+        {
+          "path": "**/**"
+        },
         {
           "path": "$HOME/Library/Application Support/Steam/**"
         },
