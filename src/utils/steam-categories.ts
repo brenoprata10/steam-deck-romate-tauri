@@ -14,8 +14,3 @@ export const saveCategoryByUser = ({
 	steamUserId: string
 	collection: {key: string; value: TSteamCategory['value']}
 }) => {} //Electron.ipcRenderer.invoke(EChannel.SAVE_STEAM_COLLECTION, steamUserId, collection) as Promise<void>
-
-export const isSteamCategoriesReady = ({steamUserId}: {steamUserId: string}) => {
-	return Promise.resolve(true)
-}
-//Electron.ipcRenderer.invoke(EChannel.IS_STEAM_CATEGORIES_READY, steamUserId) as Promise<boolean>

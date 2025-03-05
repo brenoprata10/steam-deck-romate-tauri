@@ -14,7 +14,7 @@ import AutoUpdater from './pages/auto-updater/AutoUpdater.component'
 import ConfigureParsers from './pages/configure-parsers/ConfigureParsers.component'
 import Button from './uikit/button/Button.component'
 import Modal from './uikit/modal/Modal.component'
-import {isSteamCategoriesReady} from './utils/steam-categories'
+import {invoke} from '@tauri-apps/api/core'
 
 export default function App() {
 	const [state, dispatch] = useReducer(reducer, INITIAL_STATE)
@@ -23,8 +23,8 @@ export default function App() {
 	const checkSteamProcess = async () => {
 		if (state.steamUserId) {
 			setIsSteamProcessClosed(true)
-			const isReady = await isSteamCategoriesReady({steamUserId: state.steamUserId})
-			setIsSteamProcessClosed(isReady)
+			const isSteamRunning = await invoke<boolean>('is_steam_running')
+			setIsSteamProcessClosed(!isSteamRunning)
 		}
 	}
 

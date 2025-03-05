@@ -89,9 +89,8 @@ export const getSteamShortcuts = async ({steamUserId}: {steamUserId: string}): P
 	try {
 		const steamPathConfig = await getSteamPathConfig(steamUserId)
 		if (steamPathConfig.hasSteamId) {
-			const shortcuts = await invoke('get_shortcuts', {shortcutPath: steamPathConfig.shortcutsFile})
-			console.log(shortcuts)
-			return shortcuts as TSteamShortcut[]
+			const shortcuts = await invoke<TSteamShortcut[]>('get_shortcuts', {shortcutPath: steamPathConfig.shortcutsFile})
+			return shortcuts
 		}
 		throw Error('User ID is not available.')
 	} catch (error) {

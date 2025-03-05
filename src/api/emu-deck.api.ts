@@ -8,7 +8,6 @@ export const getEmuDeckConfigFile = async (emulationFolderPath: string): Promise
 		)
 
 		const emuDeckParserFile = (await response.json()) as TParserConfig[]
-		console.log(emuDeckParserFile)
 		return emuDeckParserFile.map((parser) => ({
 			...parser,
 			id: parser.id,
