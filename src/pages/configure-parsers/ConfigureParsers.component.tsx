@@ -17,8 +17,6 @@ import ERoute from '@/enums/ERoute'
 import {getGamesFromParsers} from '@/utils/parser'
 import ELocalStorageKey from '@/enums/ELocalStorageKey'
 import ParserImport from '@/pages/configure-parsers/parser-import/ParserImport.component'
-//import EStorageKey from '@/enums/EStorageKey'
-//import storage from 'electron-json-storage'
 import ParserExport from '@/pages/configure-parsers/parser-export/ParserExport.component'
 
 enum EContentType {
@@ -118,12 +116,12 @@ const ConfigureParsers = () => {
 		[dispatch, customParsers]
 	)
 
-	const handleSave = useCallback(() => {
+	const handleSave = useCallback(async () => {
 		if (!customParsers) {
 			throw Error('Parser is not configured.')
 		}
 
-		const games = getGamesFromParsers(customParsers.map((parser) => ({...parser, category: parser.name})))
+		const games = await getGamesFromParsers(customParsers.map((parser) => ({...parser, category: parser.name})))
 
 		if (games.length === 0) {
 			alert('No games were found within your parsers configuration, check your configuration.')

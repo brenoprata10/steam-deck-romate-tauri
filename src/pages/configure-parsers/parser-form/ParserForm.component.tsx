@@ -29,11 +29,10 @@ const ParserForm = ({
 	)
 
 	const handleRomDirectoryFolderSelect = useCallback(async () => {
-		const {canceled, filePaths} = await selectRomDirectory()
-		if (canceled || filePaths.length === 0) {
+		const romsDirectoryPath = await selectRomDirectory()
+		if (!romsDirectoryPath) {
 			return
 		}
-		const romsDirectoryPath = filePaths[0]
 		handleRawPropertyChange({value: romsDirectoryPath, property: 'romDirectory'})
 		setValue('romDirectory', romsDirectoryPath)
 	}, [handleRawPropertyChange, selectRomDirectory, setValue])
