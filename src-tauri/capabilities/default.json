@@ -37,6 +37,22 @@
         }
       ]
     },
+    {
+      "identifier": "fs:allow-create",
+      "allow": [
+        {
+          "path": "$DESKTOP/**"
+        }
+      ]
+    },
+    {
+      "identifier": "fs:allow-write",
+      "allow": [
+        {
+          "path": "$DESKTOP/**"
+        }
+      ]
+    },
     "dialog:default"
   ]
 }

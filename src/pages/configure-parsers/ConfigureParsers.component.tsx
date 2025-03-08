@@ -18,6 +18,8 @@ import {getGamesFromParsers} from '@/utils/parser'
 import ELocalStorageKey from '@/enums/ELocalStorageKey'
 import ParserImport from '@/pages/configure-parsers/parser-import/ParserImport.component'
 import ParserExport from '@/pages/configure-parsers/parser-export/ParserExport.component'
+import {create, BaseDirectory} from '@tauri-apps/plugin-fs'
+import EStorageKey from '@/enums/EStorageKey'
 
 enum EContentType {
 	PARSER_CONFIG = 'PARSER_CONFIG',
@@ -90,17 +92,12 @@ const ConfigureParsers = () => {
 		[customParsers, dispatch]
 	)
 
-	const exportParsers = useCallback((exportedParsers: TParserConfig[]) => {
-		//TODO migrate to Command
-		/*
-		storage.set(EStorageKey.PARSERS, {parsers: exportedParsers}, {dataPath: './'}, function (error) {
-			if (error) {
-				alert('Could not save file. Please report this in our github page.')
-				console.error(error)
-				return
-			}
-			alert(`File ${EStorageKey.PARSERS}.json saved.\n\nThe file is located under the same path as this executable.`)
-		})*/
+	const exportParsers = useCallback(async (exportedParsers: TParserConfig[]) => {
+		console.log('here')
+		const file = await create(`${EStorageKey.PARSERS}.json`, {baseDir: BaseDirectory.Desktop})
+		await file.write(new TextEncoder().encode(JSON.stringify(exportedParsers)))
+		await file.close()
+		alert(`File ${EStorageKey.PARSERS}.json saved.\n\nThe file is located under the same path as this executable.`)
 	}, [])
 
 	const importParsers = useCallback(
