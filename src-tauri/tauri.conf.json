@@ -23,6 +23,7 @@
   },
   "bundle": {
     "active": true,
+    "createUpdaterArtifacts": true,
     "targets": "all",
     "icon": [
       "icons/32x32.png",
@@ -31,5 +32,13 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ]
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDQzMjRCQjBEQTM5QzA3OTgKUldTWUI1eWpEYnNrUXlFUjFPWmJxcGNqb3FOcVVvZEFYUDZMb0taL280bGE0Tkkza2g4ZFhzY3EK",
+      "endpoints": [
+	"https://github.com/brenoprata10/steam-deck-romate/releases/download/latest.json"
+      ]
+    }
   }
 }

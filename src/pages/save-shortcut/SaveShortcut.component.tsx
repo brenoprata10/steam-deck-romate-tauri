@@ -19,7 +19,7 @@ import {getSelectedAsset} from '@/utils/asset'
 import {getFileExtension} from '@/utils/files'
 import {getAssetsWithPreSelection, getCachedGames, getGameSearchTerm} from '@/utils/game'
 import {getAssetFileName} from '@/utils/steam-assets'
-import {getCategoriesByUser, saveCategoryByUser} from '@/utils/steam-categories'
+//import {getCategoriesByUser, saveCategoryByUser} from '@/utils/steam-categories'
 import {getSteamPathConfig, getSteamShortcuts, saveSteamShortcuts} from '@/utils/steam-shortcuts'
 import styles from './SaveShortcut.module.scss'
 import EAssetType from '@/enums/EAssetType'
@@ -173,7 +173,8 @@ const SaveShortcut = () => {
 
 		addToLog('Saving collections.', PRIMARY_LOG_COLOR)
 
-		const categories = await getCategoriesByUser({steamUserId})
+		/* TODO Migrate
+		 * const categories = await getCategoriesByUser({steamUserId})
 		for (const collectionName of Object.keys(collections)) {
 			const collectionId = `romate.${collectionName}`
 			const alreadyCreatedCollection = categories.find((category) => category.value.id === collectionId)
@@ -192,7 +193,7 @@ const SaveShortcut = () => {
 					}
 				}
 			})
-		}
+		}*/
 	}
 
 	const saveGamesToLocalStorage = useCallback((updatedGames: TGame[]) => {

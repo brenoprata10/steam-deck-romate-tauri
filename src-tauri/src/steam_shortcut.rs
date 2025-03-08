@@ -1,7 +1,7 @@
-use steam_shortcuts_util::{self, app_id_generator::calculate_app_id, Shortcut};
-use std::fs;
-use serde::{Serialize, Deserialize};
 use crate::enums::error::Error;
+use serde::{Deserialize, Serialize};
+use std::fs;
+use steam_shortcuts_util::{self, app_id_generator::calculate_app_id, Shortcut};
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct ParsedShortcut {
@@ -12,18 +12,25 @@ pub struct ParsedShortcut {
     exe: String,
     icon: String,
     #[serde(rename = "launchOptions")]
-    launch_options: String
+    launch_options: String,
 }
 
 impl ParsedShortcut {
     fn new<'a>(shortcut: Shortcut<'a>) -> ParsedShortcut {
-        let Shortcut {app_name, exe, app_id, icon, launch_options, ..} = shortcut;
-        ParsedShortcut { 
+        let Shortcut {
+            app_name,
+            exe,
+            app_id,
+            icon,
+            launch_options,
+            ..
+        } = shortcut;
+        ParsedShortcut {
             app_id: app_id.to_string(),
             app_name: app_name.to_string(),
             exe: exe.to_string(),
             icon: icon.to_string(),
-            launch_options: launch_options.to_string()
+            launch_options: launch_options.to_string(),
         }
     }
 }
@@ -31,8 +38,8 @@ impl ParsedShortcut {
 #[tauri::command]
 pub fn get_shortcuts(shortcut_path: &str) -> Result<Vec<ParsedShortcut>, Error> {
     let content = fs::read(shortcut_path)?;
-    let steam_shortcuts = steam_shortcuts_util::parse_shortcuts(content.as_slice())
-        .map_err(Error::SteamShortcut)?;
+    let steam_shortcuts =
+        steam_shortcuts_util::parse_shortcuts(content.as_slice()).map_err(Error::SteamShortcut)?;
     let parsed_shortcuts = steam_shortcuts
         .into_iter()
         .map(|shortcut| ParsedShortcut::new(shortcut))
@@ -51,21 +58,20 @@ pub fn save_shortcuts(shortcut_path: &str, shortcuts: Vec<ParsedShortcut>) -> Re
                 &empty_string,
                 &shortcut.app_name,
                 &shortcut.exe,
-                &empty_string, 
+                &empty_string,
                 &shortcut.icon,
                 &empty_string,
-                &shortcut.launch_options
+                &shortcut.launch_options,
             );
-            steam_shortcut.app_id = shortcut.app_id
+            steam_shortcut.app_id = shortcut
+                .app_id
                 .parse()
-                .unwrap_or(
-                    calculate_app_id(&shortcut.exe, &shortcut.app_name)
-                );
+                .unwrap_or(calculate_app_id(&shortcut.exe, &shortcut.app_name));
             steam_shortcut
-        }).collect();
+        })
+        .collect();
     let shortcut_bytes_vec = steam_shortcuts_util::shortcuts_to_bytes(&parsed_shortcuts);
-    fs::write(shortcut_path,shortcut_bytes_vec)?;
+    fs::write(shortcut_path, shortcut_bytes_vec)?;
 
     Ok(())
 }
-

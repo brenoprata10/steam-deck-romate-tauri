@@ -53,6 +53,8 @@
         }
       ]
     },
-    "dialog:default"
+    "dialog:default",
+    "updater:default",
+    "process:default"
   ]
 }

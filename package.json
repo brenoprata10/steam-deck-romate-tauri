@@ -21,6 +21,8 @@
     "@tauri-apps/plugin-http": "^2.3.0",
     "@tauri-apps/plugin-opener": "^2",
     "@tauri-apps/plugin-os": "^2.2.0",
+    "@tauri-apps/plugin-process": "^2.2.0",
+    "@tauri-apps/plugin-updater": "^2.5.1",
     "assert": "2.0.0",
     "buffer": "6.0.3",
     "crc": "4.1.1",

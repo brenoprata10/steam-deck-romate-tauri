@@ -30,4 +30,8 @@ tauri-plugin-dialog = "2"
 steam_shortcuts_util = "1.1.7"
 thiserror = "2"
 sysinfo = "0.33.1"
+tauri-plugin-process = "2"
+
+[target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
+tauri-plugin-updater = "2"
 

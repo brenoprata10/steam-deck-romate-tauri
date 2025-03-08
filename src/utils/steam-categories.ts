@@ -1,8 +1,8 @@
 //import EChannel from '@/enums/EChannel'
-import TSteamCategory from '@/types/TSteamCategory'
+//import TSteamCategory from '@/types/TSteamCategory'
 
 //TODO migrate
-export const getCategoriesByUser = ({steamUserId}: {steamUserId: string}) => {
+/*export const getCategoriesByUser = ({steamUserId}: {steamUserId: string}) => {
 	return []
 }
 //Electron.ipcRenderer.invoke(EChannel.FETCH_STEAM_USER_COLLECTIONS, steamUserId) as Promise<TSteamCategory[]>
@@ -13,4 +13,4 @@ export const saveCategoryByUser = ({
 }: {
 	steamUserId: string
 	collection: {key: string; value: TSteamCategory['value']}
-}) => {} //Electron.ipcRenderer.invoke(EChannel.SAVE_STEAM_COLLECTION, steamUserId, collection) as Promise<void>
+}) => {} //Electron.ipcRenderer.invoke(EChannel.SAVE_STEAM_COLLECTION, steamUserId, collection) as Promise<void>*/

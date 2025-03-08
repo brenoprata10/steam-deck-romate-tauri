@@ -1,15 +1,17 @@
 use asset::download_asset;
-use steam_shortcut::{get_shortcuts, save_shortcuts};
 use steam::is_steam_running;
+use steam_shortcut::{get_shortcuts, save_shortcuts};
 
 mod asset;
-mod steam_shortcut;
-mod steam;
 mod enums;
+mod steam;
+mod steam_shortcut;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_process::init())
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_os::init())

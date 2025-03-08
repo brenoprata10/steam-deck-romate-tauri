@@ -1,13 +1,13 @@
 import EAutoUpdaterMessage from '@/enums/EAutoUpdaterMessage'
-//import EChannel from '@/enums/EChannel'
 import TAutoUpdaterMessage from '@/types/TAutoUpdaterMessage'
 import {useCallback, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {useMount} from 'react-use'
 import ERoute from '@/enums/ERoute'
 import {getRoutePath} from '@/route'
-import {isDeveloperMode} from '@/utils/node-env'
 import styles from './AutoUpdater.module.scss'
+import {check} from '@tauri-apps/plugin-updater'
+import {relaunch} from '@tauri-apps/plugin-process'
 
 const AutoUpdater = () => {
 	const navigate = useNavigate()
@@ -17,15 +17,40 @@ const AutoUpdater = () => {
 		navigate(getRoutePath(ERoute.SETUP))
 	}, [navigate])
 
-	useMount(() => {
-		//TODO migrate to Command
-		/*Electron.ipcRenderer.on(EChannel.AUTO_UPDATER, (_, message: TAutoUpdaterMessage) => {
-			setUpdateStatus(message)
-			if ([EAutoUpdaterMessage.ERROR, EAutoUpdaterMessage.UPDATE_NOT_AVAILABLE].includes(message.status)) {
-				goToNextScreen()
+	useMount(async () => {
+		try {
+			const update = await check()
+			if (update) {
+				console.log(`found update ${update.version} from ${update.date} with notes ${update.body}`)
+				let downloaded = 0
+				let contentLength = 0
+				// alternatively we could also call update.download() and update.install() separately
+				await update.downloadAndInstall((event) => {
+					switch (event.event) {
+						case 'Started':
+							contentLength = event.data.contentLength ?? 0
+							setUpdateStatus({status: EAutoUpdaterMessage.UPDATE_AVAILABLE})
+							break
+						case 'Progress':
+							downloaded += event.data.chunkLength
+							setUpdateStatus({
+								status: EAutoUpdaterMessage.DOWNLOAD_IN_PROGRESS,
+								text: `Downloaded ${downloaded}/${contentLength} `
+							})
+							break
+						case 'Finished':
+							setUpdateStatus({status: EAutoUpdaterMessage.UPDATE_DOWNLOADED})
+							console.log('download finished')
+							break
+					}
+				})
+
+				setUpdateStatus({status: EAutoUpdaterMessage.UPDATE_INSTALLED})
+				await relaunch()
 			}
-		})*/
-		if (isDeveloperMode || true) {
+		} catch (error) {
+			console.log(`Failed to download update: ${error}`)
+		} finally {
 			goToNextScreen()
 		}
 	})

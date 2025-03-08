@@ -5,29 +5,29 @@ pub enum Error {
     #[error("Steam shortcut error: {0}")]
     SteamShortcut(String),
     #[error("Failed to fetch: {0}")]
-    Reqwest(#[from] tauri_plugin_http::reqwest::Error)
+    Reqwest(#[from] tauri_plugin_http::reqwest::Error),
 }
 
 #[derive(serde::Serialize)]
 #[serde(tag = "kind", content = "message")]
 #[serde(rename_all = "camelCase")]
 enum ErrorKind {
-  Io(String),
-  SteamShortcut(String),
-  Reqwest(String)
+    Io(String),
+    SteamShortcut(String),
+    Reqwest(String),
 }
 
 impl serde::Serialize for Error {
-  fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-  where
-    S: serde::ser::Serializer,
-  {
-    let error_message = self.to_string();
-    let error_kind = match self {
-      Self::Io(_) => ErrorKind::Io(error_message),
-      Self::SteamShortcut(_) => ErrorKind::SteamShortcut(error_message),
-      Self::Reqwest(_) => ErrorKind::Reqwest(error_message),
-    };
-    error_kind.serialize(serializer)
-  }
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::ser::Serializer,
+    {
+        let error_message = self.to_string();
+        let error_kind = match self {
+            Self::Io(_) => ErrorKind::Io(error_message),
+            Self::SteamShortcut(_) => ErrorKind::SteamShortcut(error_message),
+            Self::Reqwest(_) => ErrorKind::Reqwest(error_message),
+        };
+        error_kind.serialize(serializer)
+    }
 }
