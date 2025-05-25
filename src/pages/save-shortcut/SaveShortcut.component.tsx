@@ -25,6 +25,7 @@ import styles from './SaveShortcut.module.scss'
 import EAssetType from '@/enums/EAssetType'
 import {invoke} from '@tauri-apps/api/core'
 import TSteamShortcut from '@/types/TSteamShortcut'
+import {TSteamGridAsset} from '@/types/TApiSteamGridAssets'
 
 enum EStep {
 	DOWNLOAD_ASSETS = 'Downloading assets',
@@ -65,6 +66,7 @@ const SaveShortcut = () => {
 		if (!steamPath.hasSteamId) {
 			throw Error('Could not retrieve user ID.')
 		}
+		const assetsToDownload: Array<TSteamGridAsset & {gameId: string; gameName: string; assetType: EAssetType}> = []
 
 		for (const game of games) {
 			for (const assetType of Object.keys(EAssetType) as EAssetType[]) {
@@ -79,28 +81,33 @@ const SaveShortcut = () => {
 				}
 
 				if (selectedAsset && steamUserId) {
-					const assetExtension = getFileExtension(selectedAsset.mime)
-					const fileName = getAssetFileName(game.id, assetExtension)[assetType]
-
-					try {
-						await invoke('download_asset', {
-							url: selectedAsset.url,
-							fileName,
-							directory: steamPath.assetsDirectory
-						})
-						addToLog(
-							`Downloaded: ${game.name} / ${assetType.toLocaleLowerCase()} - ${fileName} - ${selectedAsset.url}`,
-							SECONDARY_LOG_COLOR
-						)
-					} catch (error) {
-						addToLog(
-							`Failed to download: ${game.name} / ${assetType.toLocaleLowerCase()} - ${fileName} - ${selectedAsset.url}.\nError: ${error}`,
-							ERROR_LOG_COLOR
-						)
-					}
+					assetsToDownload.push({...selectedAsset, gameId: game.id, gameName: game.name, assetType})
 				}
 			}
 		}
+		await Promise.all(
+			assetsToDownload.map(async ({url, gameId, gameName, mime, assetType}) => {
+				const assetExtension = getFileExtension(mime)
+				const fileName = getAssetFileName(gameId, assetExtension)[assetType]
+
+				try {
+					await invoke('download_asset', {
+						url,
+						fileName,
+						directory: steamPath.assetsDirectory
+					})
+					addToLog(
+						`Downloaded: ${gameName} / ${assetType.toLocaleLowerCase()} - ${fileName} - ${url}`,
+						SECONDARY_LOG_COLOR
+					)
+				} catch (error) {
+					addToLog(
+						`Failed to download: ${gameName} / ${assetType.toLocaleLowerCase()} - ${fileName} - ${url}.\nError: ${error}`,
+						ERROR_LOG_COLOR
+					)
+				}
+			})
+		)
 		if (skippedCount > 0) {
 			addToLog(`Skipped ${skippedCount} unmodified files.`, SECONDARY_LOG_COLOR)
 		}
